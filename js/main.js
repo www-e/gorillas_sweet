@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Define the theme data. These keys directly match the CSS variables in index.html
     const flavorThemes = [
         {
-            flavor: 'Strawb\'ar Swirl',
+            flavor: 'Strawberry Swirl Cheesecake',
             image: 'assets/images/strawberry.png',
             colors: {
                 '--page-bg': '#FFE8F4', '--hero-card-bg': '#FFF6FA', '--text-primary': '#8C3A63',
@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         },
         {
-            flavor: 'Swedish Vanilla',
+            flavor: 'Vanilla Bean Cake',
             image: 'assets/images/vanilla.png',
             colors: {
                 '--page-bg': '#F5F8FF', '--hero-card-bg': '#FBFCFF', '--text-primary': '#4A4A4A',
@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         },
         {
-            flavor: 'Mint Chokladchip',
+            flavor: 'Mint Chocolate Cookie',
             image: 'assets/images/mint.png',
             colors: {
                 '--page-bg': '#F0FFF9', '--hero-card-bg': '#F8FFFD', '--text-primary': '#3C7A5D',
@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         },
         {
-            flavor: 'Molten Chocolate',
+            flavor: 'Molten Chocolate Cake',
             image: 'assets/images/chocolate.png',
             colors: {
                 '--page-bg': '#F5EFEA', '--hero-card-bg': '#F9F6F3', '--text-primary': '#5C3A21',
@@ -64,7 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         },
         {
-            flavor: 'Cookie Crumble',
+            flavor: 'Cookie Crumble Tart',
             image: 'assets/images/cookies.png',
             colors: {
                 '--page-bg': '#F4F2EF', '--hero-card-bg': '#FAF9F7', '--text-primary': '#695546',
@@ -74,7 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         },
         {
-            flavor: 'Pistachio Delight',
+            flavor: 'Pistachio Delight Tart',
             image: 'assets/images/pistachio.png',
             colors: {
                 '--page-bg': '#F6FFF2', '--hero-card-bg': '#FDFFF8', '--text-primary': '#38A169',
@@ -84,6 +84,36 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     ];
+
+    // Function to update the hero title based on current flavor
+    function updateHeroTitle(flavorName) {
+        const heroTitleElement = document.getElementById('hero-title');
+        if (heroTitleElement) {
+            // Extract the main dessert type from the flavor name
+            let title = 'DESSERTS';
+            if (flavorName.includes('Cake') || flavorName.includes('Cheesecake')) {
+                title = 'CAKES';
+            } else if (flavorName.includes('Cookie') || flavorName.includes('Tart')) {
+                title = 'BAKED GOODS';
+            } else if (flavorName.includes('Chocolate')) {
+                title = 'CHOCOLATE';
+            }
+            
+            heroTitleElement.textContent = title;
+            
+            // Apply chocolate drip effect for chocolate desserts
+            if (flavorName.includes('Chocolate')) {
+                heroTitleElement.classList.add('chocolate-drip');
+            } else {
+                heroTitleElement.classList.remove('chocolate-drip');
+            }
+        }
+    }
+
+    // Set up callback for carousel slide changes
+    window.onCarouselSlideChange = function(index, slideData) {
+        updateHeroTitle(slideData.flavor);
+    };
 
     initializeCarousel(flavorThemes);
 

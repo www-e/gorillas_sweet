@@ -54,6 +54,80 @@
 
         /* Dynamic background for flavor cards */
         .flavor-card-bg { background-color: var(--hero-card-bg); transition: background-color 0.6s ease; }
+        
+        /* Carousel navigation buttons */
+        .carousel-nav-button {
+            font-size: 1.5rem;
+            font-weight: bold;
+            background: none;
+            border: none;
+            cursor: pointer;
+            transition: color 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 50%;
+        }
+        
+        .carousel-nav-button:hover {
+            color: var(--text-secondary);
+        }
+        
+        .carousel-nav-button:focus {
+            outline: 2px solid var(--text-secondary);
+            outline-offset: 2px;
+        }
+        
+        /* Carousel dot focus styles */
+        .slider-nav > div {
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+        
+        .slider-nav > div:focus {
+            outline: 2px solid var(--text-secondary);
+            outline-offset: 2px;
+            transform: scale(1.2);
+        }
+        
+        /* Chocolate drip effect for text */
+        .chocolate-drip {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .chocolate-drip::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 20%;
+            width: 8px;
+            height: 20px;
+            background: linear-gradient(to bottom, #5C3A21, #3a2313);
+            border-radius: 0 0 4px 4px;
+            opacity: 0.7;
+            animation: drip 2s infinite;
+        }
+        
+        .chocolate-drip::before {
+            content: "";
+            position: absolute;
+            top: 100%;
+            right: 30%;
+            width: 6px;
+            height: 15px;
+            background: linear-gradient(to bottom, #5C3A21, #3a2313);
+            border-radius: 0 0 3px 3px;
+            opacity: 0.5;
+            animation: drip 1.5s infinite 0.5s;
+        }
+        
+        @keyframes drip {
+            0% { transform: translateY(0); opacity: 0.7; }
+            50% { transform: translateY(5px); opacity: 0.9; }
+            100% { transform: translateY(0); opacity: 0.7; }
+        }
     </style>
 </head>
 
@@ -82,7 +156,7 @@
             <!-- Left Side: Text Content -->
             <div class="w-full md:w-3/5 text-center md:text-left">
                 <h1 class="text-6xl lg:text-8xl font-bold text-primary leading-none">
-                    DELICIOUS<br>ICE CREAM
+                    DELICIOUS<br><span id="hero-title">DESSERTS</span>
                 </h1>
                 <p class="text-muted max-w-md mx-auto md:mx-0 mt-6 leading-relaxed">
                     They won't just shout about mountains, plains, maybe even the occasional lake. They'll do it in a way that makes you feel like you're right there.
@@ -119,35 +193,35 @@
 
         <!-- "OUR FLAVORS" SECTION -->
         <section id="our-flavors" class="pt-16 pb-12">
-            <h2 class="section-title text-4xl font-bold text-center text-secondary mb-12">A Flavor For Everyone</h2>
+            <h2 class="section-title text-4xl font-bold text-center text-secondary mb-12">A Dessert For Everyone</h2>
             <div class="flavors-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
                 <div class="flavor-card flex flex-col items-center bg-white rounded-2xl shadow-lg shadow-black/5 overflow-hidden transform hover:-translate-y-2 transition-transform">
                     <div class="flavor-card-bg w-full p-6">
-                        <img src="assets/images/strawberry.png" alt="Strawb'ar Swirl" class="h-48 mx-auto drop-shadow-lg">
+                        <img src="assets/images/strawberry.png" alt="Strawberry Swirl Cheesecake" class="h-48 mx-auto drop-shadow-lg">
                     </div>
-                    <h3 class="text-2xl font-bold text-secondary mt-6">Strawb'ar Swirl</h3>
-                    <p class="text-center text-gray-400 p-6 leading-relaxed">A delightful mix of sweet strawberry swirls in our signature creamy base.</p>
+                    <h3 class="text-2xl font-bold text-secondary mt-6">Strawberry Swirl Cheesecake</h3>
+                    <p class="text-center text-gray-400 p-6 leading-relaxed">A delightful cheesecake with sweet strawberry swirls and a graham cracker crust.</p>
                 </div>
                  <div class="flavor-card flex flex-col items-center bg-white rounded-2xl shadow-lg shadow-black/5 overflow-hidden transform hover:-translate-y-2 transition-transform">
                     <div class="flavor-card-bg w-full p-6">
                         <img src="assets/images/red-velvet.png" alt="Red Velvet Cake" class="h-48 mx-auto drop-shadow-lg">
                     </div>
                     <h3 class="text-2xl font-bold text-secondary mt-6">Red Velvet Cake</h3>
-                    <p class="text-center text-gray-400 p-6 leading-relaxed">Rich and decadent red velvet chunks folded into a cream cheese ice cream.</p>
+                    <p class="text-center text-gray-400 p-6 leading-relaxed">Rich and decadent red velvet cake with cream cheese frosting.</p>
                 </div>
                  <div class="flavor-card flex flex-col items-center bg-white rounded-2xl shadow-lg shadow-black/5 overflow-hidden transform hover:-translate-y-2 transition-transform">
                     <div class="flavor-card-bg w-full p-6">
-                        <img src="assets/images/chocolate.png" alt="Molten Chocolate" class="h-48 mx-auto drop-shadow-lg">
+                        <img src="assets/images/chocolate.png" alt="Molten Chocolate Cake" class="h-48 mx-auto drop-shadow-lg">
                     </div>
-                    <h3 class="text-2xl font-bold text-secondary mt-6">Molten Chocolate</h3>
-                    <p class="text-center text-gray-400 p-6 leading-relaxed">Deep, dark chocolate with a gooey, molten fudge core in every scoop.</p>
+                    <h3 class="text-2xl font-bold text-secondary mt-6">Molten Chocolate Cake</h3>
+                    <p class="text-center text-gray-400 p-6 leading-relaxed">Decadent chocolate cake with a gooey, molten fudge center.</p>
                 </div>
                  <div class="flavor-card flex flex-col items-center bg-white rounded-2xl shadow-lg shadow-black/5 overflow-hidden transform hover:-translate-y-2 transition-transform">
                     <div class="flavor-card-bg w-full p-6">
-                        <img src="assets/images/pistachio.png" alt="Pistachio Delight" class="h-48 mx-auto drop-shadow-lg">
+                        <img src="assets/images/pistachio.png" alt="Pistachio Delight Tart" class="h-48 mx-auto drop-shadow-lg">
                     </div>
-                    <h3 class="text-2xl font-bold text-secondary mt-6">Pistachio Delight</h3>
-                    <p class="text-center text-gray-400 p-6 leading-relaxed">Authentic pistachio flavor with real roasted pistachio pieces for a perfect crunch.</p>
+                    <h3 class="text-2xl font-bold text-secondary mt-6">Pistachio Delight Tart</h3>
+                    <p class="text-center text-gray-400 p-6 leading-relaxed">Buttery tart shell filled with authentic pistachio cream and real roasted pistachios.</p>
                 </div>
             </div>
         </section>

@@ -70,6 +70,11 @@ function initializeCarousel(slidesData) {
         for (const [key, value] of Object.entries(activeTheme)) {
             root.style.setProperty(key, value);
         }
+        
+        // Call any custom update function if defined
+        if (window.onCarouselSlideChange) {
+            window.onCarouselSlideChange(current, slidesData[current]);
+        }
     }
     
     function autoSlide() {
