@@ -4,78 +4,163 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cream - Delicious Ice Cream</title>
-    
-    <!-- Fonts -->
+
+    <!-- 1. Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- 2. Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <!-- We are using Fredoka as requested, Poppins is removed for now -->
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;700&display=swap" rel="stylesheet">
-    
-    <!-- Stylesheets -->
-    <link rel="stylesheet" href="css/main.css">
-    <link rel="stylesheet" href="css/components/header.css">
-    <link rel="stylesheet" href="css/components/hero.css">
-</head>
-<body>
 
-    <div class="hero-container">
-        <header id="main-header">
-            <div class="logo">Cream.</div>
-            <nav>
-                <ul>
-                    <li><a href="#" class="active">Menu</a></li>
-                    <li><a href="#">About</a></li>
-                    <li><a href="#">Contact</a></li>
-                </ul>
+    <!-- 3. Dynamic Theme Styles & Font Configuration -->
+    <style>
+        /* Define custom properties that our JS will update */
+        :root {
+            --page-bg: #FFE8F4;
+            --hero-card-bg: #FFF6FA;
+            --text-primary: #8C3A63;
+            --text-secondary: #6D2E4D;
+            --text-muted: #bba9b1;
+            --btn-gradient-from: #C75B8F;
+            --btn-gradient-to: #e08bb6;
+            --btn-shadow: rgba(140, 58, 99, 0.3);
+            --btn-ghost-border: #f0e4e9;
+            --wave-fill: #FFF6FA;
+        }
+
+        /* Set the font for the whole page */
+        body {
+            font-family: 'Fredoka', sans-serif;
+            background-color: var(--page-bg);
+            transition: background-color 0.6s ease;
+        }
+
+        /* Helper for button gradient */
+        .bg-btn-gradient {
+            background-image: linear-gradient(45deg, var(--btn-gradient-from), var(--btn-gradient-to));
+        }
+        
+        /* Dynamic color classes that we can reference in Tailwind */
+        .wave-path { fill: var(--wave-fill); transition: fill 0.6s ease; }
+        .hero-card { background-color: var(--hero-card-bg); transition: background-color 0.6s ease; }
+        .text-primary { color: var(--text-primary); }
+        .text-secondary { color: var(--text-secondary); }
+        .text-muted { color: var(--text-muted); }
+        .btn-shadow { box-shadow: 0 10px 20px -5px var(--btn-shadow); }
+        .border-ghost { border-color: var(--btn-ghost-border); }
+        .review-img-border { border-color: var(--hero-card-bg); transition: border-color 0.6s ease; }
+        .dot-active { background-color: var(--text-primary); }
+
+        /* Dynamic background for flavor cards */
+        .flavor-card-bg { background-color: var(--hero-card-bg); transition: background-color 0.6s ease; }
+    </style>
+</head>
+
+<body class="flex items-center justify-center min-h-screen p-4 sm:p-6 lg:p-8">
+
+    <!-- THE UNIFIED PAGE CONTAINER -->
+    <div class="page-container hero-card w-full max-w-7xl mx-auto rounded-[35px] shadow-2xl shadow-black/5 flex flex-col p-6 sm:p-8 md:p-12">
+
+        <!-- HEADER -->
+        <header class="flex items-center justify-between z-10">
+            <h2 class="text-2xl font-bold text-secondary">Cream.</h2>
+            <nav class="hidden md:flex items-center gap-8">
+                <a href="#" class="text-secondary font-bold relative after:content-[''] after:absolute after:w-1.5 after:h-1.5 after:bg-secondary after:rounded-full after:left-1/2 after:-translate-x-1/2 after:bottom-[-8px]">Menu</a>
+                <a href="#" class="text-muted font-medium">About</a>
+                <a href="#" class="text-muted font-medium">Contact</a>
             </nav>
-            <div class="window-controls">
-                <span></span><span></span><span></span>
+            <div class="flex items-center gap-2">
+                <span class="w-3 h-3 rounded-full border border-ghost"></span>
+                <span class="w-3 h-3 rounded-full border border-ghost"></span>
+                <span class="w-3 h-3 rounded-full border border-ghost"></span>
             </div>
         </header>
 
-        <main>
-            <section id="hero-section">
-                <div class="text-content">
-                    <h1>
-                        <span>DELICIOUS</span>
-                        <span>ICE CREAM</span>
-                    </h1>
-                    <p>They won't just shout about mountains, plains, maybe even the occasional lake. They'll do it in a way that makes you feel like you're right there.</p>
-                    <div class="buttons">
-                        <button class="btn btn-primary">ORDER NOW</button>
-                        <button class="btn btn-secondary">GET MORE INFO</button>
-                    </div>
-                    <div class="reviews">
-                        <div class="review-pics">
-                            <img src="https://i.pravatar.cc/50?img=1" alt="Reviewer 1">
-                            <img src="https://i.pravatar.cc/50?img=2" alt="Reviewer 2">
-                            <img src="https://i.pravatar.cc/50?img=3" alt="Reviewer 3">
-                        </div>
-                        <span>10K+ Reviews</span>
-                    </div>
+        <!-- MAIN HERO SECTION -->
+        <main id="hero-section" class="flex-grow flex flex-col md:flex-row items-center gap-8 py-12 md:py-16">
+            <!-- Left Side: Text Content -->
+            <div class="w-full md:w-3/5 text-center md:text-left">
+                <h1 class="text-6xl lg:text-8xl font-bold text-primary leading-none">
+                    DELICIOUS<br>ICE CREAM
+                </h1>
+                <p class="text-muted max-w-md mx-auto md:mx-0 mt-6 leading-relaxed">
+                    They won't just shout about mountains, plains, maybe even the occasional lake. They'll do it in a way that makes you feel like you're right there.
+                </p>
+                <div class="flex items-center justify-center md:justify-start gap-4 mt-8">
+                    <button class="bg-btn-gradient text-white font-bold py-3 px-7 rounded-full btn-shadow transform hover:-translate-y-1 transition-transform">ORDER NOW</button>
+                    <button class="border-2 border-ghost text-secondary font-bold py-3 px-7 rounded-full transform hover:-translate-y-1 transition-transform">GET MORE INFO</button>
                 </div>
-                <div class="carousel">
-                    <div class="image-slider">
-                        <!-- Image slides will be injected by JavaScript -->
+                <div class="flex items-center justify-center md:justify-start gap-4 mt-8">
+                    <div class="flex -space-x-4">
+                        <img class="w-10 h-10 rounded-full border-2 review-img-border" src="https://i.pravatar.cc/50?img=1" alt="Reviewer 1">
+                        <img class="w-10 h-10 rounded-full border-2 review-img-border" src="https://i.pravatar.cc/50?img=2" alt="Reviewer 2">
+                        <img class="w-10 h-10 rounded-full border-2 review-img-border" src="https://i.pravatar.cc/50?img=3" alt="Reviewer 3">
                     </div>
-                    <div class="slider-nav">
-                        <!-- Dots will be injected by JavaScript -->
-                    </div>
+                    <span class="font-bold text-secondary">10K+ Reviews</span>
                 </div>
-            </section>
-        </main>
+            </div>
 
-        <footer class="hero-footer">
+            <!-- Right Side: Image Carousel -->
+            <div class="w-full md:w-2/5 h-96 relative">
+                <div class="image-slider w-full h-full">
+                    <!-- Images Injected by JS -->
+                </div>
+                <div class="slider-nav absolute bottom-0 left-1/2 -translate-x-1/2 flex gap-3">
+                    <!-- Dots Injected by JS -->
+                </div>
+            </div>
+        </main>
+        
+        <!-- WAVE SEPARATOR -->
+        <svg class="w-full" viewBox="0 0 1000 60" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+            <path class="wave-path" d="M0,60 C250,0 750,0 1000,60 L1000,60 L0,60 Z"/>
+        </svg>
+
+        <!-- "OUR FLAVORS" SECTION -->
+        <section id="our-flavors" class="pt-16 pb-12">
+            <h2 class="section-title text-4xl font-bold text-center text-secondary mb-12">A Flavor For Everyone</h2>
+            <div class="flavors-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="flavor-card flex flex-col items-center bg-white rounded-2xl shadow-lg shadow-black/5 overflow-hidden transform hover:-translate-y-2 transition-transform">
+                    <div class="flavor-card-bg w-full p-6">
+                        <img src="assets/images/strawberry.png" alt="Strawb'ar Swirl" class="h-48 mx-auto drop-shadow-lg">
+                    </div>
+                    <h3 class="text-2xl font-bold text-secondary mt-6">Strawb'ar Swirl</h3>
+                    <p class="text-center text-gray-400 p-6 leading-relaxed">A delightful mix of sweet strawberry swirls in our signature creamy base.</p>
+                </div>
+                 <div class="flavor-card flex flex-col items-center bg-white rounded-2xl shadow-lg shadow-black/5 overflow-hidden transform hover:-translate-y-2 transition-transform">
+                    <div class="flavor-card-bg w-full p-6">
+                        <img src="assets/images/red-velvet.png" alt="Red Velvet Cake" class="h-48 mx-auto drop-shadow-lg">
+                    </div>
+                    <h3 class="text-2xl font-bold text-secondary mt-6">Red Velvet Cake</h3>
+                    <p class="text-center text-gray-400 p-6 leading-relaxed">Rich and decadent red velvet chunks folded into a cream cheese ice cream.</p>
+                </div>
+                 <div class="flavor-card flex flex-col items-center bg-white rounded-2xl shadow-lg shadow-black/5 overflow-hidden transform hover:-translate-y-2 transition-transform">
+                    <div class="flavor-card-bg w-full p-6">
+                        <img src="assets/images/chocolate.png" alt="Molten Chocolate" class="h-48 mx-auto drop-shadow-lg">
+                    </div>
+                    <h3 class="text-2xl font-bold text-secondary mt-6">Molten Chocolate</h3>
+                    <p class="text-center text-gray-400 p-6 leading-relaxed">Deep, dark chocolate with a gooey, molten fudge core in every scoop.</p>
+                </div>
+                 <div class="flavor-card flex flex-col items-center bg-white rounded-2xl shadow-lg shadow-black/5 overflow-hidden transform hover:-translate-y-2 transition-transform">
+                    <div class="flavor-card-bg w-full p-6">
+                        <img src="assets/images/pistachio.png" alt="Pistachio Delight" class="h-48 mx-auto drop-shadow-lg">
+                    </div>
+                    <h3 class="text-2xl font-bold text-secondary mt-6">Pistachio Delight</h3>
+                    <p class="text-center text-gray-400 p-6 leading-relaxed">Authentic pistachio flavor with real roasted pistachio pieces for a perfect crunch.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- FOOTER -->
+        <footer class="flex items-center justify-between text-muted pt-8">
             <p>© 2025 All rights reserved</p>
-            <p class="social-handle">@gorillas_sweet</p>
+            <p>@gorillas_sweet</p>
         </footer>
+
     </div>
 
-    <svg class="wave" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
-        <path fill-opacity="1" d="M0,224L48,208C96,192,192,160,288,170.7C384,181,480,235,576,250.7C672,267,768,245,864,213.3C960,181,1056,139,1152,133.3C1248,128,1344,160,1392,176L1440,192L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
-    </svg>
-
-    <!-- Scripts -->
+    <!-- SCRIPTS -->
     <script src="js/carousel.js"></script>
     <script src="js/main.js"></script>
 </body>

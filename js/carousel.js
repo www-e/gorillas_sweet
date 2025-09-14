@@ -15,18 +15,18 @@ function initializeCarousel(slidesData) {
 
     function setupCarousel() {
         slidesData.forEach((slide, index) => {
-            // Create the slide element with an IMAGE
+            // Create the slide element with Tailwind classes
             const slideEl = document.createElement('div');
-            slideEl.classList.add('slide');
-            slideEl.innerHTML = `<img src="${slide.image}" alt="${slide.flavor}">`;
+            // These classes handle the position, size, and transition of each slide
+            slideEl.className = 'absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full transition-all duration-700 ease-[cubic-bezier(0.68,-0.55,0.27,1.55)]';
+            slideEl.innerHTML = `<img src="${slide.image}" alt="${slide.flavor}" class="w-full h-full object-contain drop-shadow-2xl">`;
             slider.appendChild(slideEl);
 
             // Create the navigation dot
             const dotEl = document.createElement('div');
-            dotEl.classList.add('dot');
+            dotEl.className = 'w-2.5 h-2.5 bg-gray-300 rounded-full cursor-pointer transition-colors';
             dotEl.addEventListener('click', () => {
                 updateSlide(index);
-                // Reset the auto-slide timer on manual interaction
                 clearInterval(autoSlideInterval);
                 autoSlideInterval = setInterval(autoSlide, 5000);
             });
@@ -36,44 +36,49 @@ function initializeCarousel(slidesData) {
 
     function updateSlide(newIndex) {
         current = newIndex;
-        const slides = document.querySelectorAll('.slide');
-        const dots = document.querySelectorAll('.dot');
+        const slides = document.querySelectorAll('.image-slider > div');
+        const dots = document.querySelectorAll('.slider-nav > div');
         
-        // Loop through all slides to update their class
         slides.forEach((slide, i) => {
-            slide.classList.remove('active', 'prev', 'next');
+            // Remove all state classes
+            slide.classList.remove('opacity-100', 'scale-100', 'z-10', 'opacity-50', 'scale-75', 'blur-sm');
 
             const prevIndex = (current - 1 + slides.length) % slides.length;
-            const nextIndex = (current + 1) % slides.length;
-
-            if (i === current) {
-                slide.classList.add('active');
-            } else if (i === prevIndex) {
-                slide.classList.add('prev');
-            } else if (i === nextIndex) {
-                slide.classList.add('next');
+            const nextIndex = (current + 1 + slides.length) % slides.length;
+            
+            if (i === current) { // Active slide
+                slide.classList.add('opacity-100', 'scale-100', 'z-10');
+                slide.style.transform = 'translate(-50%, -50%)';
+            } else if (i === prevIndex) { // Previous slide
+                slide.classList.add('opacity-50', 'scale-75', 'blur-sm');
+                slide.style.transform = 'translate(-100%, -50%)';
+            } else if (i === nextIndex) { // Next slide
+                slide.classList.add('opacity-50', 'scale-75', 'blur-sm');
+                slide.style.transform = 'translate(0%, -50%)';
+            } else { // Hidden slides
+                slide.classList.add('opacity-0', 'scale-75');
             }
         });
 
-        dots.forEach((dot, i) => dot.classList.toggle('active', i === current));
+        dots.forEach((dot, i) => {
+            dot.classList.remove('dot-active');
+            if(i === current) dot.classList.add('dot-active');
+        });
 
-        // Update theme colors
+        // Update theme by setting CSS variables
         const activeTheme = slidesData[current].colors;
         for (const [key, value] of Object.entries(activeTheme)) {
-            const cssVar = `--${key.replace(/([A-Z])/g, '-$1').toLowerCase()}`;
-            root.style.setProperty(cssVar, value);
+            root.style.setProperty(key, value);
         }
     }
     
-    // Function for the automatic slide transition
     function autoSlide() {
         const nextIndex = (current + 1) % slidesData.length;
         updateSlide(nextIndex);
     }
 
     setupCarousel();
-    updateSlide(0); // Set the initial state
+    updateSlide(0);
     
-    // Start the automatic slideshow
-    autoSlideInterval = setInterval(autoSlide, 5000); // Change slide every 5 seconds
+    autoSlideInterval = setInterval(autoSlide, 5000);
 }

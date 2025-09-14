@@ -1,91 +1,90 @@
 /* js/main.js */
-
 document.addEventListener('DOMContentLoaded', () => {
-    
-    // Define the expanded theme data for all desserts
-    // IMPORTANT: Make sure your image files in 'assets/images/' match these names.
+
+    // Define the theme data. These keys directly match the CSS variables in index.html
     const flavorThemes = [
         {
             flavor: 'Strawb\'ar Swirl',
             image: 'assets/images/strawberry.png',
             colors: {
-                pageBg: '#FFE8F4', heroCardBg: '#FFF6FA', textColorPrimary: '#8C3A63',
-                textColorSecondary: '#6D2E4D', textColorMuted: '#bba9b1', waveFill: '#FFF6FA',
-                buttonGradient: 'linear-gradient(45deg, #C75B8F, #e08bb6)',
-                buttonShadowColor: 'rgba(140, 58, 99, 0.3)', buttonGhostBorderColor: '#f0e4e9'
+                '--page-bg': '#FFE8F4', '--hero-card-bg': '#FFF6FA', '--text-primary': '#8C3A63',
+                '--text-secondary': '#6D2E4D', '--text-muted': '#bba9b1', '--wave-fill': '#FFF6FA',
+                '--btn-gradient-from': '#C75B8F', '--btn-gradient-to': '#e08bb6',
+                '--btn-shadow': 'rgba(140, 58, 99, 0.3)', '--btn-ghost-border': '#f0e4e9'
             }
         },
         {
             flavor: 'Swedish Vanilla',
             image: 'assets/images/vanilla.png',
             colors: {
-                pageBg: '#F5F8FF', heroCardBg: '#FBFCFF', textColorPrimary: '#4A4A4A',
-                textColorSecondary: '#313131', textColorMuted: '#9e9e9e', waveFill: '#FBFCFF',
-                buttonGradient: 'linear-gradient(45deg, #343434, #555555)',
-                buttonShadowColor: 'rgba(50, 50, 50, 0.3)', buttonGhostBorderColor: '#e0e0e0'
+                '--page-bg': '#F5F8FF', '--hero-card-bg': '#FBFCFF', '--text-primary': '#4A4A4A',
+                '--text-secondary': '#313131', '--text-muted': '#9e9e9e', '--wave-fill': '#FBFCFF',
+                '--btn-gradient-from': '#343434', '--btn-gradient-to': '#555555',
+                '--btn-shadow': 'rgba(50, 50, 50, 0.3)', '--btn-ghost-border': '#e0e0e0'
             }
         },
         {
             flavor: 'Mint Chokladchip',
             image: 'assets/images/mint.png',
             colors: {
-                pageBg: '#F0FFF9', heroCardBg: '#F8FFFD', textColorPrimary: '#3C7A5D',
-                textColorSecondary: '#2E5C47', textColorMuted: '#95b3a7', waveFill: '#F8FFFD',
-                buttonGradient: 'linear-gradient(45deg, #0C4B33, #1f7c57)',
-                buttonShadowColor: 'rgba(12, 75, 51, 0.3)', buttonGhostBorderColor: '#d4e5de'
+                '--page-bg': '#F0FFF9', '--hero-card-bg': '#F8FFFD', '--text-primary': '#3C7A5D',
+                '--text-secondary': '#2E5C47', '--text-muted': '#95b3a7', '--wave-fill': '#F8FFFD',
+                '--btn-gradient-from': '#0C4B33', '--btn-gradient-to': '#1f7c57',
+                '--btn-shadow': 'rgba(12, 75, 51, 0.3)', '--btn-ghost-border': '#d4e5de'
             }
         },
         {
             flavor: 'Red Velvet Cake',
             image: 'assets/images/red-velvet.png',
             colors: {
-                pageBg: '#FFF0F0', heroCardBg: '#FFF8F8', textColorPrimary: '#9B2C2C',
-                textColorSecondary: '#7A2020', textColorMuted: '#c5a3a3', waveFill: '#FFF8F8',
-                buttonGradient: 'linear-gradient(45deg, #C53030, #F56565)',
-                buttonShadowColor: 'rgba(155, 44, 44, 0.3)', buttonGhostBorderColor: '#fed7d7'
+                '--page-bg': '#FFF0F0', '--hero-card-bg': '#FFF8F8', '--text-primary': '#9B2C2C',
+                '--text-secondary': '#7A2020', '--text-muted': '#c5a3a3', '--wave-fill': '#FFF8F8',
+                '--btn-gradient-from': '#C53030', '--btn-gradient-to': '#F56565',
+                '--btn-shadow': 'rgba(155, 44, 44, 0.3)', '--btn-ghost-border': '#fed7d7'
             }
         },
         {
             flavor: 'Classic Cheesecake',
             image: 'assets/images/cheesecake.png',
             colors: {
-                pageBg: '#FFFBEB', heroCardBg: '#FEFDF6', textColorPrimary: '#B7791F',
-                textColorSecondary: '#975A16', textColorMuted: '#d4b791', waveFill: '#FEFDF6',
-                buttonGradient: 'linear-gradient(45deg, #D69E2E, #EDC9A1)',
-                buttonShadowColor: 'rgba(183, 121, 31, 0.3)', buttonGhostBorderColor: '#f7e4c3'
+                '--page-bg': '#FFFBEB', '--hero-card-bg': '#FEFDF6', '--text-primary': '#B7791F',
+                '--text-secondary': '#975A16', '--text-muted': '#d4b791', '--wave-fill': '#FEFDF6',
+                '--btn-gradient-from': '#D69E2E', '--btn-gradient-to': '#EDC9A1',
+                '--btn-shadow': 'rgba(183, 121, 31, 0.3)', '--btn-ghost-border': '#f7e4c3'
             }
         },
         {
             flavor: 'Molten Chocolate',
             image: 'assets/images/chocolate.png',
             colors: {
-                pageBg: '#F5EFEA', heroCardBg: '#F9F6F3', textColorPrimary: '#5C3A21',
-                textColorSecondary: '#422815', textColorMuted: '#a39387', waveFill: '#F9F6F3',
-                buttonGradient: 'linear-gradient(45deg, #744210, #8C5B38)',
-                buttonShadowColor: 'rgba(92, 58, 33, 0.3)', buttonGhostBorderColor: '#e0d1c4'
+                '--page-bg': '#F5EFEA', '--hero-card-bg': '#F9F6F3', '--text-primary': '#5C3A21',
+                '--text-secondary': '#422815', '--text-muted': '#a39387', '--wave-fill': '#F9F6F3',
+                '--btn-gradient-from': '#744210', '--btn-gradient-to': '#8C5B38',
+                '--btn-shadow': 'rgba(92, 58, 33, 0.3)', '--btn-ghost-border': '#e0d1c4'
             }
         },
         {
             flavor: 'Cookie Crumble',
             image: 'assets/images/cookies.png',
             colors: {
-                pageBg: '#F4F2EF', heroCardBg: '#FAF9F7', textColorPrimary: '#695546',
-                textColorSecondary: '#4A3B2F', textColorMuted: '#a89d94', waveFill: '#FAF9F7',
-                buttonGradient: 'linear-gradient(45deg, #745f4d, #907f6f)',
-                buttonShadowColor: 'rgba(116, 95, 77, 0.3)', buttonGhostBorderColor: '#ddd5ce'
+                '--page-bg': '#F4F2EF', '--hero-card-bg': '#FAF9F7', '--text-primary': '#695546',
+                '--text-secondary': '#4A3B2F', '--text-muted': '#a89d94', '--wave-fill': '#FAF9F7',
+                '--btn-gradient-from': '#745f4d', '--btn-gradient-to': '#907f6f',
+                '--btn-shadow': 'rgba(116, 95, 77, 0.3)', '--btn-ghost-border': '#ddd5ce'
             }
         },
         {
             flavor: 'Pistachio Delight',
             image: 'assets/images/pistachio.png',
             colors: {
-                pageBg: '#F6FFF2', heroCardBg: '#FDFFF8', textColorPrimary: '#38A169',
-                textColorSecondary: '#2F855A', textColorMuted: '#a7c7b6', waveFill: '#FDFFF8',
-                buttonGradient: 'linear-gradient(45deg, #38A169, #68D391)',
-                buttonShadowColor: 'rgba(56, 161, 105, 0.3)', buttonGhostBorderColor: '#c6f6d5'
+                '--page-bg': '#F6FFF2', '--hero-card-bg': '#FDFFF8', '--text-primary': '#38A169',
+                '--text-secondary': '#2F855A', '--text-muted': '#a7c7b6', '--wave-fill': '#FDFFF8',
+                '--btn-gradient-from': '#38A169', '--btn-gradient-to': '#68D391',
+                '--btn-shadow': 'rgba(56, 161, 105, 0.3)', '--btn-ghost-border': '#c6f6d5'
             }
         }
     ];
 
     initializeCarousel(flavorThemes);
+
 });
