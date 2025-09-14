@@ -58,6 +58,8 @@ class GorillaApp {
       { path: "components/header.html", target: "#header-component" },
       { path: "components/hero.html", target: "#hero-component" },
       { path: "components/gallery.html", target: "#gallery-component" },
+      { path: "components/wave-separator-2.html", target: "#wave-separator-2" },
+      { path: "components/social.html", target: "#social-component" },
       { path: "components/footer.html", target: "#footer-component" },
       { path: "components/modal.html", target: "#modal-container" },
     ];
