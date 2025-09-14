@@ -19,7 +19,7 @@ function initializeCarousel(slidesData) {
             const slideEl = document.createElement('div');
             // These classes handle the position, size, and transition of each slide
             slideEl.className = 'absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full transition-all duration-700 ease-[cubic-bezier(0.68,-0.55,0.27,1.55)]';
-            slideEl.innerHTML = `<img src="${slide.image}" alt="${slide.flavor}" class="w-full h-full object-contain drop-shadow-2xl">`;
+            slideEl.innerHTML = `<img src="${slide.image}" alt="${slide.flavor}" class="w-full h-full object-contain drop-shadow-2xl optimized-img" loading="lazy">`;
             slider.appendChild(slideEl);
 
             // Create the navigation dot

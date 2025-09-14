@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cream - Delicious Ice Cream</title>
+    <title>Gorilla Sweet - Delicious Desserts</title>
 
     <!-- 1. Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -12,6 +12,12 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- 3. Preload critical images -->
+    <link rel="preload" href="assets/images/tiramisu.png" as="image">
+    <link rel="preload" href="assets/images/red-velvet.png" as="image">
+    <link rel="preload" href="assets/images/chocolate.png" as="image">
+    <link rel="preload" href="assets/images/cupcake.png" as="image">
 
     <!-- 3. Dynamic Theme Styles & Font Configuration -->
     <style>
@@ -81,6 +87,14 @@
         .carousel-nav-button:focus {
             outline: 2px solid var(--text-secondary);
             outline-offset: 2px;
+        }
+        
+        /* Image optimization styles */
+        .optimized-img {
+            image-rendering: -webkit-optimize-contrast;
+            image-rendering: crisp-edges;
+            max-width: 100%;
+            height: auto;
         }
         
         /* Carousel dot focus styles */
@@ -160,28 +174,28 @@
             <div class="flavors-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
                 <div class="flavor-card flex flex-col items-center bg-white rounded-2xl shadow-lg shadow-black/5 overflow-hidden transform hover:-translate-y-2 transition-transform">
                     <div class="flavor-card-bg w-full p-6">
-                        <img src="assets/images/tiramisu.png" alt="Tiramisu Cake" class="h-48 mx-auto drop-shadow-lg" width="200" height="200" loading="lazy">
+                        <img src="assets/images/tiramisu.png" alt="Tiramisu Cake" class="h-48 mx-auto drop-shadow-lg optimized-img" width="200" height="200" loading="lazy">
                     </div>
                     <h3 class="text-2xl font-bold mt-6" style="color: var(--text-secondary);">Tiramisu Cake</h3>
                     <p class="text-center text-gray-400 p-6 leading-relaxed">Classic Italian dessert with layers of coffee-soaked ladyfingers and mascarpone cream.</p>
                 </div>
                  <div class="flavor-card flex flex-col items-center bg-white rounded-2xl shadow-lg shadow-black/5 overflow-hidden transform hover:-translate-y-2 transition-transform">
                     <div class="flavor-card-bg w-full p-6">
-                        <img src="assets/images/red-velvet.png" alt="Red Velvet Cake" class="h-48 mx-auto drop-shadow-lg">
+                        <img src="assets/images/red-velvet.png" alt="Red Velvet Cake" class="h-48 mx-auto drop-shadow-lg optimized-img" width="200" height="200" loading="lazy">
                     </div>
                     <h3 class="text-2xl font-bold mt-6" style="color: var(--text-secondary);">Red Velvet Cake</h3>
                     <p class="text-center text-gray-400 p-6 leading-relaxed">Rich and decadent red velvet cake with cream cheese frosting.</p>
                 </div>
                  <div class="flavor-card flex flex-col items-center bg-white rounded-2xl shadow-lg shadow-black/5 overflow-hidden transform hover:-translate-y-2 transition-transform">
                     <div class="flavor-card-bg w-full p-6">
-                        <img src="assets/images/chocolate.png" alt="Molten Chocolate Cake" class="h-48 mx-auto drop-shadow-lg">
+                        <img src="assets/images/chocolate.png" alt="Molten Chocolate Cake" class="h-48 mx-auto drop-shadow-lg optimized-img" width="200" height="200" loading="lazy">
                     </div>
                     <h3 class="text-2xl font-bold mt-6" style="color: var(--text-secondary);">Molten Chocolate Cake</h3>
                     <p class="text-center text-gray-400 p-6 leading-relaxed">Decadent chocolate cake with a gooey, molten fudge center.</p>
                 </div>
                  <div class="flavor-card flex flex-col items-center bg-white rounded-2xl shadow-lg shadow-black/5 overflow-hidden transform hover:-translate-y-2 transition-transform">
                     <div class="flavor-card-bg w-full p-6">
-                        <img src="assets/images/cupcake.png" alt="Triple Berry Cupcake" class="h-48 mx-auto drop-shadow-lg">
+                        <img src="assets/images/cupcake.png" alt="Triple Berry Cupcake" class="h-48 mx-auto drop-shadow-lg optimized-img" width="200" height="200" loading="lazy">
                     </div>
                     <h3 class="text-2xl font-bold mt-6" style="color: var(--text-secondary);">Triple Berry Cupcake</h3>
                     <p class="text-center text-gray-400 p-6 leading-relaxed">Delicate vanilla cupcake topped with fresh strawberries, blueberries, and raspberries.</p>

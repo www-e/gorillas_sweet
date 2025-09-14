@@ -84,7 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (flavorName.includes('Cake') || flavorName.includes('Cheesecake')) {
                 title = 'CAKES';
             } else if (flavorName.includes('Cookie') || flavorName.includes('Tart')) {
-                title = 'BAKED GOODS';
+                title = 'BAKED';
             } else if (flavorName.includes('Chocolate')) {
                 title = 'CHOCOLATE';
             } else if (flavorName.includes('Tiramisu')) {
