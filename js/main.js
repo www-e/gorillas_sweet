@@ -1,167 +1,171 @@
 /* js/main.js - Main application orchestrator */
 
 class GorillaApp {
-    constructor() {
-        this.isInitialized = false;
-        this.components = {
-            themeManager: null,
-            carouselManager: null,
-            galleryManager: null,
-            modal: null
-        };
+  constructor() {
+    this.isInitialized = false;
+    this.components = {
+      themeManager: null,
+      carouselManager: null,
+      galleryManager: null,
+      modal: null,
+    };
+  }
+
+  /**
+   * Initialize the complete application
+   */
+  async init() {
+    try {
+      console.log("🚀 Initializing Gorilla Sweet application...");
+
+      // Show loading screen
+      if (window.DOMLoader) {
+        window.DOMLoader.showLoading();
+      }
+
+      // Load all components
+      await this.loadComponents();
+
+      // Initialize all modules
+      await this.initializeModules();
+
+      // Setup global event listeners
+      this.setupEventListeners();
+
+      // Hide loading and show app
+      if (window.DOMLoader) {
+        window.DOMLoader.hideLoading();
+      }
+
+      this.isInitialized = true;
+      console.log("✅ Application initialized successfully");
+    } catch (error) {
+      console.error("❌ Failed to initialize application:", error);
+      this.showError();
+    }
+  }
+
+  /**
+   * Load HTML components
+   */
+  async loadComponents() {
+    if (!window.DOMLoader) {
+      console.log("DOMLoader not available, using inline components");
+      return;
     }
 
-    /**
-     * Initialize the complete application
-     */
-    async init() {
-        try {
-            console.log('🚀 Initializing Gorilla Sweet application...');
+    const components = [
+      { path: "components/header.html", target: "#header-component" },
+      { path: "components/hero.html", target: "#hero-component" },
+      { path: "components/gallery.html", target: "#gallery-component" },
+      { path: "components/footer.html", target: "#footer-component" },
+      { path: "components/modal.html", target: "#modal-container" },
+    ];
 
-            // Show loading screen
-            if (window.DOMLoader) {
-                window.DOMLoader.showLoading();
-            }
+    const success = await window.DOMLoader.loadComponents(components);
+    if (!success) {
+      console.log(
+        "Some components failed to load, continuing with inline components"
+      );
+    }
+  }
 
-            // Load all components
-            await this.loadComponents();
-            
-            // Initialize all modules
-            await this.initializeModules();
-            
-            // Setup global event listeners
-            this.setupEventListeners();
-            
-            // Hide loading and show app
-            if (window.DOMLoader) {
-                window.DOMLoader.hideLoading();
-            }
-
-            this.isInitialized = true;
-            console.log('✅ Application initialized successfully');
-
-        } catch (error) {
-            console.error('❌ Failed to initialize application:', error);
-            this.showError();
-        }
+  /**
+   * Initialize all modules
+   */
+  async initializeModules() {
+    // Initialize theme manager
+    if (window.ThemeManager) {
+      this.components.themeManager = new window.ThemeManager();
+      this.components.themeManager.init();
     }
 
-    /**
-     * Load HTML components
-     */
-    async loadComponents() {
-        if (!window.DOMLoader) {
-            console.log('DOMLoader not available, using inline components');
-            return;
-        }
-
-        const components = [
-            { path: 'components/header.html', target: '#header-component' },
-            { path: 'components/hero.html', target: '#hero-component' },
-            { path: 'components/gallery.html', target: '#gallery-component' },
-            { path: 'components/footer.html', target: '#footer-component' },
-            { path: 'components/modal.html', target: '#modal-container' }
-        ];
-
-        const success = await window.DOMLoader.loadComponents(components);
-        if (!success) {
-            console.log('Some components failed to load, continuing with inline components');
-        }
+    // Initialize carousel
+    if (window.CarouselManager && window.DESSERT_DATA) {
+      this.components.carouselManager = new window.CarouselManager();
+      const desserts = window.DESSERT_DATA.getAllDesserts();
+      this.components.carouselManager.init(desserts);
     }
 
-    /**
-     * Initialize all modules
-     */
-    async initializeModules() {
-        // Initialize theme manager
-        if (window.ThemeManager) {
-            this.components.themeManager = new window.ThemeManager();
-            this.components.themeManager.init();
-        }
-
-        // Initialize carousel
-        if (window.CarouselManager && window.DESSERT_DATA) {
-            this.components.carouselManager = new window.CarouselManager();
-            const desserts = window.DESSERT_DATA.getAllDesserts();
-            this.components.carouselManager.init(desserts);
-        }
-
-        // Initialize modal
-        if (window.DessertModal) {
-            window.DessertModal.init();
-        }
-
-        // Initialize gallery (with delay for better UX)
-        if (window.GalleryManager) {
-            this.components.galleryManager = new window.GalleryManager();
-            setTimeout(() => {
-                this.components.galleryManager.init();
-            }, 500);
-        }
-
-        // Initialize animations
-        if (window.AnimationHelpers) {
-            window.AnimationHelpers.initScrollAnimations();
-        }
+    // Initialize modal
+    if (window.DessertModal) {
+      window.DessertModal.init();
     }
 
-    /**
-     * Setup global event listeners
-     */
-    setupEventListeners() {
-        // Handle window resize
-        window.addEventListener('resize', this.debounce(() => {
-            this.handleResize();
-        }, 250));
-
-        // Handle visibility change (pause/resume carousel)
-        document.addEventListener('visibilitychange', () => {
-            if (this.components.carouselManager) {
-                if (document.hidden) {
-                    this.components.carouselManager.stopAutoSlide();
-                } else {
-                    this.components.carouselManager.startAutoSlide();
-                }
-            }
-        });
-
-        // Handle keyboard navigation
-        document.addEventListener('keydown', (e) => {
-            this.handleGlobalKeydown(e);
-        });
+    // Initialize gallery (with delay for better UX)
+    if (window.GalleryManager) {
+      this.components.galleryManager = new window.GalleryManager();
+      setTimeout(() => {
+        this.components.galleryManager.init();
+      }, 500);
     }
 
-    /**
-     * Handle window resize
-     */
-    handleResize() {
-        // Update any responsive elements if needed
-        console.log('Window resized');
+    // Initialize animations
+    if (window.AnimationHelpers) {
+      window.AnimationHelpers.initScrollAnimations();
     }
+  }
 
-    /**
-     * Handle global keyboard events
-     */
-    handleGlobalKeydown(event) {
-        // Arrow key navigation for carousel (when not in modal)
-        if (this.components.carouselManager && !window.DessertModal?.isOpen) {
-            if (event.key === 'ArrowLeft') {
-                event.preventDefault();
-                this.components.carouselManager.previous();
-            } else if (event.key === 'ArrowRight') {
-                event.preventDefault();
-                this.components.carouselManager.next();
-            }
+  /**
+   * Setup global event listeners
+   */
+  setupEventListeners() {
+    // Handle window resize
+    window.addEventListener(
+      "resize",
+      this.debounce(() => {
+        this.handleResize();
+      }, 250)
+    );
+
+    // Handle visibility change (pause/resume carousel)
+    document.addEventListener("visibilitychange", () => {
+      if (this.components.carouselManager) {
+        if (document.hidden) {
+          this.components.carouselManager.stopAutoSlide();
+        } else {
+          this.components.carouselManager.startAutoSlide();
         }
-    }
+      }
+    });
 
-    /**
-     * Show error state
-     */
-    showError() {
-        const appContainer = document.getElementById('app-container');
-        if (appContainer) {
-            appContainer.innerHTML = `
+    // Handle keyboard navigation
+    document.addEventListener("keydown", (e) => {
+      this.handleGlobalKeydown(e);
+    });
+  }
+
+  /**
+   * Handle window resize
+   */
+  handleResize() {
+    // Update any responsive elements if needed
+    console.log("Window resized");
+  }
+
+  /**
+   * Handle global keyboard events
+   */
+  handleGlobalKeydown(event) {
+    // Arrow key navigation for carousel (when not in modal)
+    if (this.components.carouselManager && !window.DessertModal?.isOpen) {
+      if (event.key === "ArrowLeft") {
+        event.preventDefault();
+        this.components.carouselManager.previous();
+      } else if (event.key === "ArrowRight") {
+        event.preventDefault();
+        this.components.carouselManager.next();
+      }
+    }
+  }
+
+  /**
+   * Show error state
+   */
+  showError() {
+    const appContainer = document.getElementById("app-container");
+    if (appContainer) {
+      appContainer.innerHTML = `
                 <div class="flex items-center justify-center min-h-screen">
                     <div class="text-center">
                         <div class="text-red-500 mb-4">
@@ -178,47 +182,47 @@ class GorillaApp {
                     </div>
                 </div>
             `;
-            appContainer.classList.remove('opacity-0');
-        }
-
-        // Hide loading screen
-        const loadingScreen = document.getElementById('loading-screen');
-        if (loadingScreen) {
-            loadingScreen.style.display = 'none';
-        }
+      appContainer.classList.remove("opacity-0");
     }
 
-    /**
-     * Utility: Debounce function
-     */
-    debounce(func, wait) {
-        let timeout;
-        return function executedFunction(...args) {
-            const later = () => {
-                clearTimeout(timeout);
-                func(...args);
-            };
-            clearTimeout(timeout);
-            timeout = setTimeout(later, wait);
-        };
+    // Hide loading screen
+    const loadingScreen = document.getElementById("loading-screen");
+    if (loadingScreen) {
+      loadingScreen.style.display = "none";
     }
+  }
 
-    /**
-     * Get application status
-     */
-    getStatus() {
-        return {
-            initialized: this.isInitialized,
-            components: Object.keys(this.components).reduce((status, key) => {
-                status[key] = this.components[key] !== null;
-                return status;
-            }, {})
-        };
-    }
+  /**
+   * Utility: Debounce function
+   */
+  debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+      const later = () => {
+        clearTimeout(timeout);
+        func(...args);
+      };
+      clearTimeout(timeout);
+      timeout = setTimeout(later, wait);
+    };
+  }
+
+  /**
+   * Get application status
+   */
+  getStatus() {
+    return {
+      initialized: this.isInitialized,
+      components: Object.keys(this.components).reduce((status, key) => {
+        status[key] = this.components[key] !== null;
+        return status;
+      }, {}),
+    };
+  }
 }
 
 // Initialize the application when DOM is ready
-document.addEventListener('DOMContentLoaded', async () => {
-    window.GorillaApp = new GorillaApp();
-    await window.GorillaApp.init();
+document.addEventListener("DOMContentLoaded", async () => {
+  window.GorillaApp = new GorillaApp();
+  await window.GorillaApp.init();
 });

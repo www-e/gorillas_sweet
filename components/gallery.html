@@ -1,0 +1,25 @@
+<section class="pt-8 md:pt-16 pb-6 md:pb-12 animate-slide-up">
+    <!-- Loading State -->
+    <div id="gallery-loading" class="text-center py-12">
+        <div class="animate-spin-slow w-8 h-8 border-4 border-gray-200 rounded-full mx-auto mb-4"
+             style="border-top-color: var(--text-primary, #8C3A63);"></div>
+        <p class="text-gray-500 text-sm">Loading delicious desserts...</p>
+    </div>
+
+    <!-- Gallery Content -->
+    <div id="gallery-content" class="hidden">
+        <div class="text-center mb-12">
+            <h2 class="text-4xl lg:text-5xl font-bold mb-4 transition-colors duration-300" 
+                style="color: var(--text-secondary, #6D2E4D);">
+                A Dessert For Everyone
+            </h2>
+            <p class="text-lg text-gray-500 max-w-2xl mx-auto">
+                Discover our handcrafted collection of premium desserts, each made with the finest ingredients
+            </p>
+        </div>
+        
+        <div id="dessert-gallery" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 lg:gap-8">
+            <!-- Dessert cards will be populated by JavaScript -->
+        </div>
+    </div>
+</section>
