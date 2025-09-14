@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cream - Delicious Ice Cream</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- We are using Fredoka as requested, Poppins is removed for now -->
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/components/header.css">
+    <link rel="stylesheet" href="css/components/hero.css">
+</head>
+<body>
+
+    <div class="hero-container">
+        <header id="main-header">
+            <div class="logo">Cream.</div>
+            <nav>
+                <ul>
+                    <li><a href="#" class="active">Menu</a></li>
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="window-controls">
+                <span></span><span></span><span></span>
+            </div>
+        </header>
+
+        <main>
+            <section id="hero-section">
+                <div class="text-content">
+                    <h1>
+                        <span>DELICIOUS</span>
+                        <span>ICE CREAM</span>
+                    </h1>
+                    <p>They won't just shout about mountains, plains, maybe even the occasional lake. They'll do it in a way that makes you feel like you're right there.</p>
+                    <div class="buttons">
+                        <button class="btn btn-primary">ORDER NOW</button>
+                        <button class="btn btn-secondary">GET MORE INFO</button>
+                    </div>
+                    <div class="reviews">
+                        <div class="review-pics">
+                            <img src="https://i.pravatar.cc/50?img=1" alt="Reviewer 1">
+                            <img src="https://i.pravatar.cc/50?img=2" alt="Reviewer 2">
+                            <img src="https://i.pravatar.cc/50?img=3" alt="Reviewer 3">
+                        </div>
+                        <span>10K+ Reviews</span>
+                    </div>
+                </div>
+                <div class="carousel">
+                    <div class="image-slider">
+                        <!-- Image slides will be injected by JavaScript -->
+                    </div>
+                    <div class="slider-nav">
+                        <!-- Dots will be injected by JavaScript -->
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="hero-footer">
+            <p>© 2025 All rights reserved</p>
+            <p class="social-handle">@gorillas_sweet</p>
+        </footer>
+    </div>
+
+    <svg class="wave" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+        <path fill-opacity="1" d="M0,224L48,208C96,192,192,160,288,170.7C384,181,480,235,576,250.7C672,267,768,245,864,213.3C960,181,1056,139,1152,133.3C1248,128,1344,160,1392,176L1440,192L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+    </svg>
+
+    <!-- Scripts -->
+    <script src="js/carousel.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
