@@ -90,6 +90,7 @@ All project documentation is located in the `docs/` directory:
 - [Project Planning](docs/project_planning.md) - Comprehensive project planning
 - [Technical Architecture](docs/technical_architecture.md) - Detailed technical architecture
 - [Design Research](docs/design_research.md) - Design research and inspiration
+- [Container Width Fix](docs/container-width-fix.md) - Solution for container width and positioning issues
 - [Qwen Rules](docs/rules/qwen_rules.md) - Qwen Code rules and guidelines
 
 ## 🤝 Development Process
