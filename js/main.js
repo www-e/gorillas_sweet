@@ -4,33 +4,13 @@ document.addEventListener('DOMContentLoaded', () => {
     // Define the theme data. These keys directly match the CSS variables in index.html
     const flavorThemes = [
         {
-            flavor: 'Strawberry Swirl Cheesecake',
-            image: 'assets/images/strawberry.png',
+            flavor: 'Tiramisu Cake',
+            image: 'assets/images/tiramisu.png',
             colors: {
-                '--page-bg': '#FFE8F4', '--hero-card-bg': '#FFF6FA', '--text-primary': '#8C3A63',
-                '--text-secondary': '#6D2E4D', '--text-muted': '#bba9b1', '--wave-fill': '#FFF6FA',
-                '--btn-gradient-from': '#C75B8F', '--btn-gradient-to': '#e08bb6',
-                '--btn-shadow': 'rgba(140, 58, 99, 0.3)', '--btn-ghost-border': '#f0e4e9'
-            }
-        },
-        {
-            flavor: 'Vanilla Bean Cake',
-            image: 'assets/images/vanilla.png',
-            colors: {
-                '--page-bg': '#F5F8FF', '--hero-card-bg': '#FBFCFF', '--text-primary': '#4A4A4A',
-                '--text-secondary': '#313131', '--text-muted': '#9e9e9e', '--wave-fill': '#FBFCFF',
-                '--btn-gradient-from': '#343434', '--btn-gradient-to': '#555555',
-                '--btn-shadow': 'rgba(50, 50, 50, 0.3)', '--btn-ghost-border': '#e0e0e0'
-            }
-        },
-        {
-            flavor: 'Mint Chocolate Cookie',
-            image: 'assets/images/mint.png',
-            colors: {
-                '--page-bg': '#F0FFF9', '--hero-card-bg': '#F8FFFD', '--text-primary': '#3C7A5D',
-                '--text-secondary': '#2E5C47', '--text-muted': '#95b3a7', '--wave-fill': '#F8FFFD',
-                '--btn-gradient-from': '#0C4B33', '--btn-gradient-to': '#1f7c57',
-                '--btn-shadow': 'rgba(12, 75, 51, 0.3)', '--btn-ghost-border': '#d4e5de'
+                '--page-bg': '#F0E6D2', '--hero-card-bg': '#F8F4E9', '--text-primary': '#8B4513',
+                '--text-secondary': '#5D2E0A', '--text-muted': '#A08C7D', '--wave-fill': '#F8F4E9',
+                '--btn-gradient-from': '#8B4513', '--btn-gradient-to': '#A0522D',
+                '--btn-shadow': 'rgba(139, 69, 19, 0.3)', '--btn-ghost-border': '#D4C8B5'
             }
         },
         {
@@ -82,6 +62,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 '--btn-gradient-from': '#38A169', '--btn-gradient-to': '#68D391',
                 '--btn-shadow': 'rgba(56, 161, 105, 0.3)', '--btn-ghost-border': '#c6f6d5'
             }
+        },
+        {
+            flavor: 'Triple Berry Cupcake',
+            image: 'assets/images/cupcake.png',
+            colors: {
+                '--page-bg': '#FFF0F8', '--hero-card-bg': '#FFF8FC', '--text-primary': '#C2185B',
+                '--text-secondary': '#880E4F', '--text-muted': '#CE93D8', '--wave-fill': '#FFF8FC',
+                '--btn-gradient-from': '#C2185B', '--btn-gradient-to': '#E91E63',
+                '--btn-shadow': 'rgba(194, 24, 91, 0.3)', '--btn-ghost-border': '#F8BBD0'
+            }
         }
     ];
 
@@ -97,23 +87,56 @@ document.addEventListener('DOMContentLoaded', () => {
                 title = 'BAKED GOODS';
             } else if (flavorName.includes('Chocolate')) {
                 title = 'CHOCOLATE';
+            } else if (flavorName.includes('Tiramisu')) {
+                title = 'ITALIAN DESSERTS';
+            } else if (flavorName.includes('Cupcake')) {
+                title = 'CUPCAKES';
             }
             
             heroTitleElement.textContent = title;
-            
-            // Apply chocolate drip effect for chocolate desserts
-            if (flavorName.includes('Chocolate')) {
-                heroTitleElement.classList.add('chocolate-drip');
-            } else {
-                heroTitleElement.classList.remove('chocolate-drip');
-            }
         }
     }
 
     // Set up callback for carousel slide changes
     window.onCarouselSlideChange = function(index, slideData) {
         updateHeroTitle(slideData.flavor);
+        // Update the flavors section theme to match the current carousel item
+        updateFlavorsSectionTheme(slideData.colors);
     };
+
+    // Function to update the flavors section theme
+    function updateFlavorsSectionTheme(themeColors) {
+        const flavorCards = document.querySelectorAll('.flavor-card');
+        const flavorCardBg = document.querySelectorAll('.flavor-card-bg');
+        
+        // Apply the background color to the flavor cards
+        flavorCards.forEach(card => {
+            card.style.backgroundColor = '#ffffff'; // Keep white background for cards
+        });
+        
+        // Apply the theme background color to the flavor card backgrounds
+        flavorCardBg.forEach(bg => {
+            bg.style.backgroundColor = themeColors['--hero-card-bg'];
+        });
+        
+        // Update the section title color to match the current theme
+        const sectionTitle = document.querySelector('.section-title');
+        if (sectionTitle) {
+            sectionTitle.style.color = themeColors['--text-secondary'];
+        }
+        
+        // Update the flavor card text colors
+        const flavorTitles = document.querySelectorAll('.flavor-card h3');
+        const flavorDescriptions = document.querySelectorAll('.flavor-card p');
+        
+        flavorTitles.forEach(title => {
+            title.style.color = themeColors['--text-secondary'];
+        });
+        
+        flavorDescriptions.forEach(desc => {
+            desc.style.color = '#9ca3af'; // Keep the muted gray color for descriptions
+        });
+    }
 
     initializeCarousel(flavorThemes);
 
