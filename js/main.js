@@ -1,143 +1,224 @@
-/* js/main.js */
-document.addEventListener('DOMContentLoaded', () => {
+/* js/main.js - Main application orchestrator */
 
-    // Define the theme data. These keys directly match the CSS variables in index.html
-    const flavorThemes = [
-        {
-            flavor: 'Tiramisu Cake',
-            image: 'assets/images/tiramisu.png',
-            colors: {
-                '--page-bg': '#F0E6D2', '--hero-card-bg': '#F8F4E9', '--text-primary': '#8B4513',
-                '--text-secondary': '#5D2E0A', '--text-muted': '#A08C7D', '--wave-fill': '#F8F4E9',
-                '--btn-gradient-from': '#8B4513', '--btn-gradient-to': '#A0522D',
-                '--btn-shadow': 'rgba(139, 69, 19, 0.3)', '--btn-ghost-border': '#D4C8B5'
-            }
-        },
-        {
-            flavor: 'Red Velvet Cake',
-            image: 'assets/images/red-velvet.png',
-            colors: {
-                '--page-bg': '#FFF0F0', '--hero-card-bg': '#FFF8F8', '--text-primary': '#9B2C2C',
-                '--text-secondary': '#7A2020', '--text-muted': '#c5a3a3', '--wave-fill': '#FFF8F8',
-                '--btn-gradient-from': '#C53030', '--btn-gradient-to': '#F56565',
-                '--btn-shadow': 'rgba(155, 44, 44, 0.3)', '--btn-ghost-border': '#fed7d7'
-            }
-        },
-        {
-            flavor: 'Classic Cheesecake',
-            image: 'assets/images/cheesecake.png',
-            colors: {
-                '--page-bg': '#FFFBEB', '--hero-card-bg': '#FEFDF6', '--text-primary': '#B7791F',
-                '--text-secondary': '#975A16', '--text-muted': '#d4b791', '--wave-fill': '#FEFDF6',
-                '--btn-gradient-from': '#D69E2E', '--btn-gradient-to': '#EDC9A1',
-                '--btn-shadow': 'rgba(183, 121, 31, 0.3)', '--btn-ghost-border': '#f7e4c3'
-            }
-        },
-        {
-            flavor: 'Molten Chocolate Cake',
-            image: 'assets/images/chocolate.png',
-            colors: {
-                '--page-bg': '#F5EFEA', '--hero-card-bg': '#F9F6F3', '--text-primary': '#5C3A21',
-                '--text-secondary': '#422815', '--text-muted': '#a39387', '--wave-fill': '#F9F6F3',
-                '--btn-gradient-from': '#744210', '--btn-gradient-to': '#8C5B38',
-                '--btn-shadow': 'rgba(92, 58, 33, 0.3)', '--btn-ghost-border': '#e0d1c4'
-            }
-        },
-        {
-            flavor: 'Cookie Crumble Tart',
-            image: 'assets/images/cookies.png',
-            colors: {
-                '--page-bg': '#F4F2EF', '--hero-card-bg': '#FAF9F7', '--text-primary': '#695546',
-                '--text-secondary': '#4A3B2F', '--text-muted': '#a89d94', '--wave-fill': '#FAF9F7',
-                '--btn-gradient-from': '#745f4d', '--btn-gradient-to': '#907f6f',
-                '--btn-shadow': 'rgba(116, 95, 77, 0.3)', '--btn-ghost-border': '#ddd5ce'
-            }
-        },
-        {
-            flavor: 'Pistachio Delight Tart',
-            image: 'assets/images/pistachio.png',
-            colors: {
-                '--page-bg': '#F6FFF2', '--hero-card-bg': '#FDFFF8', '--text-primary': '#38A169',
-                '--text-secondary': '#2F855A', '--text-muted': '#a7c7b6', '--wave-fill': '#FDFFF8',
-                '--btn-gradient-from': '#38A169', '--btn-gradient-to': '#68D391',
-                '--btn-shadow': 'rgba(56, 161, 105, 0.3)', '--btn-ghost-border': '#c6f6d5'
-            }
-        },
-        {
-            flavor: 'Triple Berry Cupcake',
-            image: 'assets/images/cupcake.png',
-            colors: {
-                '--page-bg': '#FFF0F8', '--hero-card-bg': '#FFF8FC', '--text-primary': '#C2185B',
-                '--text-secondary': '#880E4F', '--text-muted': '#CE93D8', '--wave-fill': '#FFF8FC',
-                '--btn-gradient-from': '#C2185B', '--btn-gradient-to': '#E91E63',
-                '--btn-shadow': 'rgba(194, 24, 91, 0.3)', '--btn-ghost-border': '#F8BBD0'
-            }
-        }
-    ];
+class GorillaApp {
+    constructor() {
+        this.isInitialized = false;
+        this.components = {
+            themeManager: null,
+            carouselManager: null,
+            galleryManager: null,
+            modal: null
+        };
+    }
 
-    // Function to update the hero title based on current flavor
-    function updateHeroTitle(flavorName) {
-        const heroTitleElement = document.getElementById('hero-title');
-        if (heroTitleElement) {
-            // Extract the main dessert type from the flavor name
-            let title = 'DESSERTS';
-            if (flavorName.includes('Cake') || flavorName.includes('Cheesecake')) {
-                title = 'CAKES';
-            } else if (flavorName.includes('Cookie') || flavorName.includes('Tart')) {
-                title = 'BAKED';
-            } else if (flavorName.includes('Chocolate')) {
-                title = 'CHOCOLATE';
-            } else if (flavorName.includes('Tiramisu')) {
-                title = 'ITALIAN DESSERTS';
-            } else if (flavorName.includes('Cupcake')) {
-                title = 'CUPCAKES';
+    /**
+     * Initialize the complete application
+     */
+    async init() {
+        try {
+            console.log('🚀 Initializing Gorilla Sweet application...');
+
+            // Show loading screen
+            if (window.DOMLoader) {
+                window.DOMLoader.showLoading();
             }
+
+            // Load all components
+            await this.loadComponents();
             
-            heroTitleElement.textContent = title;
+            // Initialize all modules
+            await this.initializeModules();
+            
+            // Setup global event listeners
+            this.setupEventListeners();
+            
+            // Hide loading and show app
+            if (window.DOMLoader) {
+                window.DOMLoader.hideLoading();
+            }
+
+            this.isInitialized = true;
+            console.log('✅ Application initialized successfully');
+
+        } catch (error) {
+            console.error('❌ Failed to initialize application:', error);
+            this.showError();
         }
     }
 
-    // Set up callback for carousel slide changes
-    window.onCarouselSlideChange = function(index, slideData) {
-        updateHeroTitle(slideData.flavor);
-        // Update the flavors section theme to match the current carousel item
-        updateFlavorsSectionTheme(slideData.colors);
-    };
-
-    // Function to update the flavors section theme
-    function updateFlavorsSectionTheme(themeColors) {
-        const flavorCards = document.querySelectorAll('.flavor-card');
-        const flavorCardBg = document.querySelectorAll('.flavor-card-bg');
-        
-        // Apply the background color to the flavor cards
-        flavorCards.forEach(card => {
-            card.style.backgroundColor = '#ffffff'; // Keep white background for cards
-        });
-        
-        // Apply the theme background color to the flavor card backgrounds
-        flavorCardBg.forEach(bg => {
-            bg.style.backgroundColor = themeColors['--hero-card-bg'];
-        });
-        
-        // Update the section title color to match the current theme
-        const sectionTitle = document.querySelector('.section-title');
-        if (sectionTitle) {
-            sectionTitle.style.color = themeColors['--text-secondary'];
+    /**
+     * Load HTML components
+     */
+    async loadComponents() {
+        if (!window.DOMLoader) {
+            console.log('DOMLoader not available, using inline components');
+            return;
         }
-        
-        // Update the flavor card text colors
-        const flavorTitles = document.querySelectorAll('.flavor-card h3');
-        const flavorDescriptions = document.querySelectorAll('.flavor-card p');
-        
-        flavorTitles.forEach(title => {
-            title.style.color = themeColors['--text-secondary'];
+
+        const components = [
+            { path: 'components/header.html', target: '#header-component' },
+            { path: 'components/hero.html', target: '#hero-component' },
+            { path: 'components/gallery.html', target: '#gallery-component' },
+            { path: 'components/footer.html', target: '#footer-component' },
+            { path: 'components/modal.html', target: '#modal-container' }
+        ];
+
+        const success = await window.DOMLoader.loadComponents(components);
+        if (!success) {
+            console.log('Some components failed to load, continuing with inline components');
+        }
+    }
+
+    /**
+     * Initialize all modules
+     */
+    async initializeModules() {
+        // Initialize theme manager
+        if (window.ThemeManager) {
+            this.components.themeManager = new window.ThemeManager();
+            this.components.themeManager.init();
+        }
+
+        // Initialize carousel
+        if (window.CarouselManager && window.DESSERT_DATA) {
+            this.components.carouselManager = new window.CarouselManager();
+            const desserts = window.DESSERT_DATA.getAllDesserts();
+            this.components.carouselManager.init(desserts);
+        }
+
+        // Initialize modal
+        if (window.DessertModal) {
+            window.DessertModal.init();
+        }
+
+        // Initialize gallery (with delay for better UX)
+        if (window.GalleryManager) {
+            this.components.galleryManager = new window.GalleryManager();
+            setTimeout(() => {
+                this.components.galleryManager.init();
+            }, 500);
+        }
+
+        // Initialize animations
+        if (window.AnimationHelpers) {
+            window.AnimationHelpers.initScrollAnimations();
+        }
+    }
+
+    /**
+     * Setup global event listeners
+     */
+    setupEventListeners() {
+        // Handle window resize
+        window.addEventListener('resize', this.debounce(() => {
+            this.handleResize();
+        }, 250));
+
+        // Handle visibility change (pause/resume carousel)
+        document.addEventListener('visibilitychange', () => {
+            if (this.components.carouselManager) {
+                if (document.hidden) {
+                    this.components.carouselManager.stopAutoSlide();
+                } else {
+                    this.components.carouselManager.startAutoSlide();
+                }
+            }
         });
-        
-        flavorDescriptions.forEach(desc => {
-            desc.style.color = '#9ca3af'; // Keep the muted gray color for descriptions
+
+        // Handle keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            this.handleGlobalKeydown(e);
         });
     }
 
-    initializeCarousel(flavorThemes);
+    /**
+     * Handle window resize
+     */
+    handleResize() {
+        // Update any responsive elements if needed
+        console.log('Window resized');
+    }
 
+    /**
+     * Handle global keyboard events
+     */
+    handleGlobalKeydown(event) {
+        // Arrow key navigation for carousel (when not in modal)
+        if (this.components.carouselManager && !window.DessertModal?.isOpen) {
+            if (event.key === 'ArrowLeft') {
+                event.preventDefault();
+                this.components.carouselManager.previous();
+            } else if (event.key === 'ArrowRight') {
+                event.preventDefault();
+                this.components.carouselManager.next();
+            }
+        }
+    }
+
+    /**
+     * Show error state
+     */
+    showError() {
+        const appContainer = document.getElementById('app-container');
+        if (appContainer) {
+            appContainer.innerHTML = `
+                <div class="flex items-center justify-center min-h-screen">
+                    <div class="text-center">
+                        <div class="text-red-500 mb-4">
+                            <svg class="w-16 h-16 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01"></path>
+                            </svg>
+                        </div>
+                        <h1 class="text-2xl font-bold text-gray-700 mb-2">Something went wrong</h1>
+                        <p class="text-gray-500 mb-6">Please refresh the page to try again.</p>
+                        <button onclick="location.reload()" 
+                                class="px-6 py-3 bg-pink-500 text-white rounded-full font-bold hover:bg-pink-600 transition-colors">
+                            Refresh Page
+                        </button>
+                    </div>
+                </div>
+            `;
+            appContainer.classList.remove('opacity-0');
+        }
+
+        // Hide loading screen
+        const loadingScreen = document.getElementById('loading-screen');
+        if (loadingScreen) {
+            loadingScreen.style.display = 'none';
+        }
+    }
+
+    /**
+     * Utility: Debounce function
+     */
+    debounce(func, wait) {
+        let timeout;
+        return function executedFunction(...args) {
+            const later = () => {
+                clearTimeout(timeout);
+                func(...args);
+            };
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+        };
+    }
+
+    /**
+     * Get application status
+     */
+    getStatus() {
+        return {
+            initialized: this.isInitialized,
+            components: Object.keys(this.components).reduce((status, key) => {
+                status[key] = this.components[key] !== null;
+                return status;
+            }, {})
+        };
+    }
+}
+
+// Initialize the application when DOM is ready
+document.addEventListener('DOMContentLoaded', async () => {
+    window.GorillaApp = new GorillaApp();
+    await window.GorillaApp.init();
 });

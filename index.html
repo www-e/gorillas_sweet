@@ -2,218 +2,92 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>Gorilla Sweet - Delicious Desserts</title>
 
-    <!-- 1. Tailwind CSS CDN -->
+    <!-- Tailwind CSS CDN with custom config -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        // Custom Tailwind configuration
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'fredoka': ['Fredoka', 'sans-serif']
+                    },
+                    animation: {
+                        'spin-slow': 'spin 2s linear infinite',
+                        'bounce-gentle': 'bounce 2s infinite',
+                        'fade-in': 'fadeIn 0.6s ease-out forwards',
+                        'slide-up': 'slideUp 0.6s ease-out forwards'
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' }
+                        },
+                        slideUp: {
+                            '0%': { opacity: '0', transform: 'translateY(40px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
 
-    <!-- 2. Google Fonts -->
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;700&display=swap" rel="stylesheet">
     
-    <!-- 3. Preload critical images -->
+    <!-- Preload critical images -->
     <link rel="preload" href="assets/images/tiramisu.png" as="image">
     <link rel="preload" href="assets/images/red-velvet.png" as="image">
     <link rel="preload" href="assets/images/chocolate.png" as="image">
     <link rel="preload" href="assets/images/cupcake.png" as="image">
-
-    <!-- 3. Dynamic Theme Styles & Font Configuration -->
-    <style>
-        /* Define custom properties that our JS will update */
-        :root {
-            --page-bg: #FFE8F4;
-            --hero-card-bg: #FFF6FA;
-            --text-primary: #8C3A63;
-            --text-secondary: #6D2E4D;
-            --text-muted: #bba9b1;
-            --btn-gradient-from: #C75B8F;
-            --btn-gradient-to: #e08bb6;
-            --btn-shadow: rgba(140, 58, 99, 0.3);
-            --btn-ghost-border: #f0e4e9;
-            --wave-fill: #FFF6FA;
-        }
-
-        /* Set the font for the whole page */
-        body {
-            font-family: 'Fredoka', sans-serif;
-            background-color: var(--page-bg);
-            transition: background-color 0.6s ease;
-        }
-
-        /* Helper for button gradient */
-        .bg-btn-gradient {
-            background-image: linear-gradient(45deg, var(--btn-gradient-from), var(--btn-gradient-to));
-        }
-        
-        /* Dynamic color classes that we can reference in Tailwind */
-        .wave-path { fill: var(--wave-fill); transition: fill 0.6s ease; }
-        .hero-card { background-color: var(--hero-card-bg); transition: background-color 0.6s ease; }
-        .text-primary { color: var(--text-primary); }
-        .text-secondary { color: var(--text-secondary); }
-        .text-muted { color: var(--text-muted); }
-        .btn-shadow { box-shadow: 0 10px 20px -5px var(--btn-shadow); }
-        .border-ghost { border-color: var(--btn-ghost-border); }
-        .review-img-border { border-color: var(--hero-card-bg); transition: border-color 0.6s ease; }
-        .dot-active { background-color: var(--text-primary); }
-
-        /* Dynamic background for flavor cards */
-        .flavor-card-bg { 
-            background-color: var(--hero-card-bg); 
-            transition: background-color 0.6s ease; 
-        }
-        
-        /* Carousel navigation buttons */
-        .carousel-nav-button {
-            font-size: 1.5rem;
-            font-weight: bold;
-            background: none;
-            border: none;
-            cursor: pointer;
-            transition: color 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 2.5rem;
-            height: 2.5rem;
-            border-radius: 50%;
-        }
-        
-        .carousel-nav-button:hover {
-            color: var(--text-secondary);
-        }
-        
-        .carousel-nav-button:focus {
-            outline: 2px solid var(--text-secondary);
-            outline-offset: 2px;
-        }
-        
-        /* Image optimization styles */
-        .optimized-img {
-            image-rendering: -webkit-optimize-contrast;
-            image-rendering: crisp-edges;
-            max-width: 100%;
-            height: auto;
-        }
-        
-        /* Carousel dot focus styles */
-        .slider-nav > div {
-            transition: background-color 0.3s ease, transform 0.2s ease;
-        }
-        
-        .slider-nav > div:focus {
-            outline: 2px solid var(--text-secondary);
-            outline-offset: 2px;
-            transform: scale(1.2);
-        }
-    </style>
 </head>
 
-<body class="min-h-screen p-4 sm:p-6 lg:p-8">
-
-    <!-- THE UNIFIED PAGE CONTAINER -->
-    <div class="page-container hero-card w-11/12 sm:w-11/12 md:w-[90%] max-w-screen-2xl mx-auto rounded-[35px] shadow-2xl shadow-black/5 flex flex-col p-6 sm:p-8 md:p-12">
-
-        <!-- HEADER -->
-        <header class="flex items-center justify-between z-10">
-            <h2 class="text-2xl font-bold text-secondary">Gorilla Sweet</h2>
-            <nav class="hidden md:flex items-center gap-8">
-                <a href="#" class="text-secondary font-bold relative after:content-[''] after:absolute after:w-1.5 after:h-1.5 after:bg-secondary after:rounded-full after:left-1/2 after:-translate-x-1/2 after:bottom-[-8px]">Menu</a>
-                <a href="#" class="text-muted font-medium">About</a>
-                <a href="#" class="text-muted font-medium">Contact</a>
-            </nav>
-            <div class="flex items-center gap-2">
-                <span class="w-3 h-3 rounded-full border border-ghost"></span>
-                <span class="w-3 h-3 rounded-full border border-ghost"></span>
-                <span class="w-3 h-3 rounded-full border border-ghost"></span>
-            </div>
-        </header>
-
-        <!-- MAIN HERO SECTION -->
-        <main id="hero-section" class="flex-grow flex flex-col md:flex-row items-center gap-8 py-12 md:py-16">
-            <!-- Left Side: Text Content -->
-            <div class="w-full md:w-3/5 text-center md:text-left">
-                <h1 class="text-6xl lg:text-8xl font-bold text-primary leading-none">
-                    DELICIOUS<br><span id="hero-title">DESSERTS</span>
-                </h1>
-                <p class="text-muted max-w-md mx-auto md:mx-0 mt-6 leading-relaxed">
-                    They won't just shout about mountains, plains, maybe even the occasional lake. They'll do it in a way that makes you feel like you're right there.
-                </p>
-                <div class="flex items-center justify-center md:justify-start gap-4 mt-8">
-                    <button class="bg-btn-gradient text-white font-bold py-3 px-7 rounded-full btn-shadow transform hover:-translate-y-1 transition-transform">ORDER NOW</button>
-                    <button class="border-2 border-ghost text-secondary font-bold py-3 px-7 rounded-full transform hover:-translate-y-1 transition-transform">GET MORE INFO</button>
-                </div>
-                <div class="flex items-center justify-center md:justify-start gap-4 mt-8">
-                    <div class="flex -space-x-4">
-                        <!-- Avatars removed as requested -->
-                    </div>
-                    <span class="font-bold text-secondary">10K+ Reviews</span>
-                </div>
-            </div>
-
-            <!-- Right Side: Image Carousel -->
-            <div class="w-full md:w-2/5 h-96 relative">
-                <div class="image-slider w-full h-full">
-                    <!-- Images Injected by JS -->
-                </div>
-                <div class="slider-nav absolute bottom-0 left-1/2 -translate-x-1/2 flex gap-3">
-                    <!-- Dots Injected by JS -->
-                </div>
-            </div>
-        </main>
-        
-        <!-- WAVE SEPARATOR -->
-        <svg class="w-full" viewBox="0 0 1000 60" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
-            <path class="wave-path" d="M0,60 C250,0 750,0 1000,60 L1000,60 L0,60 Z"/>
-        </svg>
-
-        <!-- "OUR FLAVORS" SECTION -->
-        <section id="our-flavors" class="pt-16 pb-12">
-            <h2 class="section-title text-4xl font-bold text-center mb-12" style="color: var(--text-secondary);">A Dessert For Everyone</h2>
-            <div class="flavors-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-                <div class="flavor-card flex flex-col items-center bg-white rounded-2xl shadow-lg shadow-black/5 overflow-hidden transform hover:-translate-y-2 transition-transform">
-                    <div class="flavor-card-bg w-full p-6">
-                        <img src="assets/images/tiramisu.png" alt="Tiramisu Cake" class="h-48 mx-auto drop-shadow-lg optimized-img" width="200" height="200" loading="lazy">
-                    </div>
-                    <h3 class="text-2xl font-bold mt-6" style="color: var(--text-secondary);">Tiramisu Cake</h3>
-                    <p class="text-center text-gray-400 p-6 leading-relaxed">Classic Italian dessert with layers of coffee-soaked ladyfingers and mascarpone cream.</p>
-                </div>
-                 <div class="flavor-card flex flex-col items-center bg-white rounded-2xl shadow-lg shadow-black/5 overflow-hidden transform hover:-translate-y-2 transition-transform">
-                    <div class="flavor-card-bg w-full p-6">
-                        <img src="assets/images/red-velvet.png" alt="Red Velvet Cake" class="h-48 mx-auto drop-shadow-lg optimized-img" width="200" height="200" loading="lazy">
-                    </div>
-                    <h3 class="text-2xl font-bold mt-6" style="color: var(--text-secondary);">Red Velvet Cake</h3>
-                    <p class="text-center text-gray-400 p-6 leading-relaxed">Rich and decadent red velvet cake with cream cheese frosting.</p>
-                </div>
-                 <div class="flavor-card flex flex-col items-center bg-white rounded-2xl shadow-lg shadow-black/5 overflow-hidden transform hover:-translate-y-2 transition-transform">
-                    <div class="flavor-card-bg w-full p-6">
-                        <img src="assets/images/chocolate.png" alt="Molten Chocolate Cake" class="h-48 mx-auto drop-shadow-lg optimized-img" width="200" height="200" loading="lazy">
-                    </div>
-                    <h3 class="text-2xl font-bold mt-6" style="color: var(--text-secondary);">Molten Chocolate Cake</h3>
-                    <p class="text-center text-gray-400 p-6 leading-relaxed">Decadent chocolate cake with a gooey, molten fudge center.</p>
-                </div>
-                 <div class="flavor-card flex flex-col items-center bg-white rounded-2xl shadow-lg shadow-black/5 overflow-hidden transform hover:-translate-y-2 transition-transform">
-                    <div class="flavor-card-bg w-full p-6">
-                        <img src="assets/images/cupcake.png" alt="Triple Berry Cupcake" class="h-48 mx-auto drop-shadow-lg optimized-img" width="200" height="200" loading="lazy">
-                    </div>
-                    <h3 class="text-2xl font-bold mt-6" style="color: var(--text-secondary);">Triple Berry Cupcake</h3>
-                    <p class="text-center text-gray-400 p-6 leading-relaxed">Delicate vanilla cupcake topped with fresh strawberries, blueberries, and raspberries.</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- FOOTER -->
-        <footer class="flex items-center justify-between text-muted pt-8">
-            <p>© 2025 All rights reserved</p>
-            <p>Developed by <a href="https://omar-portfolio.com" target="_blank" class="text-secondary font-bold hover:underline">Omar</a></p>
-            <p>@gorillas_sweet</p>
-        </footer>
-
+<body class="font-fredoka min-h-screen transition-colors duration-600 ease-in-out" 
+      style="background-color: var(--page-bg, #FFE8F4);">
+    
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="fixed inset-0 bg-pink-50 flex items-center justify-center z-50">
+        <div class="text-center">
+            <div class="animate-spin-slow w-12 h-12 border-4 border-pink-200 border-t-pink-500 rounded-full mx-auto mb-4"></div>
+            <p class="text-pink-600 font-medium">Loading delicious desserts...</p>
+        </div>
     </div>
 
-    <!-- SCRIPTS -->
-    <script src="js/carousel.js"></script>
+    <!-- Main App Container -->
+    <div id="app-container" class="opacity-0 p-4 sm:p-6 lg:p-8">
+        
+        <!-- Page Container -->
+        <div id="page-container" 
+             class="w-11/12 sm:w-11/12 md:w-[90%] max-w-screen-2xl mx-auto rounded-[35px] shadow-2xl shadow-black/5 flex flex-col p-6 sm:p-8 md:p-12 transition-colors duration-600"
+             style="background-color: var(--hero-card-bg, #FFF6FA);">
+            
+            <!-- Components will be loaded here -->
+            <div id="header-component"></div>
+            <div id="hero-component"></div>
+            <div id="wave-separator"></div>
+            <div id="gallery-component"></div>
+            <div id="footer-component"></div>
+            
+        </div>
+    </div>
+
+    <!-- Modal Container -->
+    <div id="modal-container"></div>
+
+    <!-- Scripts -->
+    <script src="js/config/dessert-data.js"></script>
+    <script src="js/utils/dom-loader.js"></script>
+    <script src="js/utils/animation-helpers.js"></script>
+    <script src="js/components/theme-manager.js"></script>
+    <script src="js/components/carousel.js"></script>
+    <script src="js/components/gallery.js"></script>
+    <script src="js/components/modal.js"></script>
     <script src="js/main.js"></script>
 </body>
 </html>
