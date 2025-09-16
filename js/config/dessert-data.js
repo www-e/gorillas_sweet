@@ -5,7 +5,7 @@ const DESSERT_DATA = {
         {
             id: 'tiramisu',
             flavor: 'Tiramisu Cake',
-            image: 'assets/images/tiramisu.png',
+            image: 'assets/images/tiramisu.webp',
             price: '$24.99',
             difficulty: 'Expert',
             category: 'Premium',
@@ -35,7 +35,7 @@ const DESSERT_DATA = {
         {
             id: 'red-velvet',
             flavor: 'Red Velvet Cake',
-            image: 'assets/images/red-velvet.png',
+            image: 'assets/images/red-velvet.webp',
             price: '$22.99',
             difficulty: 'Easy',
             category: 'Signature',
@@ -65,7 +65,7 @@ const DESSERT_DATA = {
         {
             id: 'cheesecake',
             flavor: 'Classic Cheesecake',
-            image: 'assets/images/cheesecake.png',
+            image: 'assets/images/cheesecake.webp',
             price: '$28.99',
             difficulty: 'Expert',
             category: 'Classic',
@@ -95,7 +95,7 @@ const DESSERT_DATA = {
         {
             id: 'chocolate',
             flavor: 'Molten Chocolate Cake',
-            image: 'assets/images/chocolate.png',
+            image: 'assets/images/chocolate.webp',
             price: '$26.99',
             difficulty: 'Medium',
             category: 'Popular',
@@ -125,7 +125,7 @@ const DESSERT_DATA = {
         {
             id: 'cookies',
             flavor: 'Cookie Crumble Tart',
-            image: 'assets/images/cookies.png',
+            image: 'assets/images/cookies.webp',
             price: '$18.99',
             difficulty: 'Medium',
             category: 'Artisan',
@@ -155,7 +155,7 @@ const DESSERT_DATA = {
         {
             id: 'pistachio',
             flavor: 'Pistachio Delight Tart',
-            image: 'assets/images/pistachio.png',
+            image: 'assets/images/pistachio.webp',
             price: '$32.99',
             difficulty: 'Expert',
             category: 'Gourmet',
@@ -185,7 +185,7 @@ const DESSERT_DATA = {
         {
             id: 'cupcake',
             flavor: 'Triple Berry Cupcake',
-            image: 'assets/images/cupcake.png',
+            image: 'assets/images/cupcake.webp',
             price: '$8.99',
             difficulty: 'Simple',
             category: 'Seasonal',
