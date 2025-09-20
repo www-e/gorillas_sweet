@@ -135,6 +135,16 @@ class GorillaApp {
     document.addEventListener("keydown", (e) => {
       this.handleGlobalKeydown(e);
     });
+
+    // Handle navigation button clicks
+    document.addEventListener("click", (e) => {
+      if (e.target.classList.contains("nav-button")) {
+        this.handleNavigation(e.target);
+      }
+    });
+
+    // Set initial active state
+    this.setActiveNavigation("home");
   }
 
   /**
@@ -158,6 +168,65 @@ class GorillaApp {
         event.preventDefault();
         this.components.carouselManager.next();
       }
+    }
+  }
+
+  /**
+   * Handle navigation button clicks
+   */
+  handleNavigation(button) {
+    const page = button.dataset.page;
+    
+    // Remove active class from all buttons
+    document.querySelectorAll('.nav-button').forEach(btn => {
+      btn.classList.remove('active');
+    });
+    
+    // Add active class to clicked button
+    button.classList.add('active');
+    
+    switch (page) {
+      case 'home':
+        // Scroll to top of page
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        break;
+      case 'menu':
+        // Navigate to menu page (for now, scroll to gallery section)
+        const gallerySection = document.getElementById('gallery-component');
+        if (gallerySection) {
+          gallerySection.scrollIntoView({ behavior: 'smooth' });
+        }
+        break;
+      case 'about':
+        // For now, scroll to gallery section as placeholder
+        const gallerySectionAbout = document.getElementById('gallery-component');
+        if (gallerySectionAbout) {
+          gallerySectionAbout.scrollIntoView({ behavior: 'smooth' });
+        }
+        break;
+      case 'contact':
+        // Scroll to social section at bottom
+        const socialSection = document.getElementById('social-component');
+        if (socialSection) {
+          socialSection.scrollIntoView({ behavior: 'smooth' });
+        }
+        break;
+    }
+  }
+
+  /**
+   * Set active navigation state
+   */
+  setActiveNavigation(page) {
+    // Remove active class from all buttons
+    document.querySelectorAll('.nav-button').forEach(btn => {
+      btn.classList.remove('active');
+    });
+    
+    // Add active class to specified button
+    const button = document.querySelector(`.nav-button[data-page="${page}"]`);
+    if (button) {
+      button.classList.add('active');
     }
   }
 

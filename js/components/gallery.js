@@ -88,13 +88,6 @@ class GalleryManager {
             'Gourmet': 'text-purple-600 bg-purple-100'
         };
 
-        const difficultyDots = {
-            'Simple': '<div class="w-2 h-2 rounded-full bg-green-400"></div><div class="w-2 h-2 rounded-full bg-gray-300"></div><div class="w-2 h-2 rounded-full bg-gray-300"></div>',
-            'Easy': '<div class="w-2 h-2 rounded-full bg-green-400"></div><div class="w-2 h-2 rounded-full bg-green-400"></div><div class="w-2 h-2 rounded-full bg-gray-300"></div>',
-            'Medium': '<div class="w-2 h-2 rounded-full bg-yellow-400"></div><div class="w-2 h-2 rounded-full bg-yellow-400"></div><div class="w-2 h-2 rounded-full bg-gray-300"></div>',
-            'Expert': '<div class="w-2 h-2 rounded-full bg-yellow-400"></div><div class="w-2 h-2 rounded-full bg-yellow-400"></div><div class="w-2 h-2 rounded-full bg-yellow-400"></div>'
-        };
-
         card.innerHTML = `
             <div class="dessert-image-wrapper relative overflow-hidden">
                 <div class="dessert-card-bg w-full p-6 transition-colors duration-500">
@@ -119,10 +112,6 @@ class GalleryManager {
                           style="color: var(--text-primary, #8C3A63);">
                         ${dessert.price}
                     </span>
-                    <div class="flex items-center space-x-1">
-                        ${difficultyDots[dessert.difficulty] || ''}
-                        <span class="text-xs text-gray-500 ml-1">${dessert.difficulty}</span>
-                    </div>
                 </div>
             </div>
         `;

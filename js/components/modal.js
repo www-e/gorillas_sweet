@@ -119,9 +119,6 @@ class DessertModal {
                                 <span class="px-3 py-1 bg-gray-100 rounded-full text-sm font-medium">
                                     ${dessert.category}
                                 </span>
-                                <span class="px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-sm font-medium">
-                                    ${dessert.difficulty}
-                                </span>
                             </div>
                         </div>
                     </div>
@@ -141,17 +138,17 @@ class DessertModal {
                 </div>
 
                 <!-- Nutrition Facts (FDA Style) -->
-                <div class="bg-white border-2 border-black mb-6 max-w-sm">
-                    <div class="bg-black text-white p-2">
+                <div class="bg-white border-2 border-black mb-6 w-full">
+                    <div class="bg-black text-white p-3">
                         <h3 class="text-lg font-bold">Nutrition Facts</h3>
                         <p class="text-sm">Per serving</p>
                     </div>
-                    <div class="p-3 space-y-2 text-sm">
-                        <div class="flex justify-between border-b border-gray-300 pb-1">
+                    <div class="p-4 space-y-3">
+                        <div class="flex justify-between border-b border-gray-300 pb-2">
                             <span class="font-semibold">Calories</span>
                             <span class="font-bold">${dessert.nutritionFacts.calories}</span>
                         </div>
-                        <div class="space-y-1">
+                        <div class="space-y-2">
                             <div class="flex justify-between">
                                 <span>Total Fat</span>
                                 <span>${dessert.nutritionFacts.fat}</span>

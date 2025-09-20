@@ -42,10 +42,13 @@ class ThemeManager {
       title = "CUPCAKES";
     }
 
-    // Smooth title transition
+    // Apply animation class for smooth transition
+    heroTitleElement.classList.remove("text-transition");
     heroTitleElement.style.opacity = "0";
+    
     setTimeout(() => {
       heroTitleElement.textContent = title;
+      heroTitleElement.classList.add("text-transition");
       heroTitleElement.style.opacity = "1";
     }, 150);
   }

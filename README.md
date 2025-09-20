@@ -16,6 +16,13 @@ The website is designed to be hosted on GitHub Pages with Supabase handling all 
 - Place orders with personal information
 - No account creation required
 - Mobile-responsive design
+- Touch/swipe navigation for carousel on mobile devices
+- Horizontal scrolling prevention on mobile devices
+- Animated hero section text transitions
+- EGP pricing for Egyptian customers
+- Improved modal layout with better nutrition facts display
+- Modern navigation with active states, permanent shapes, and hover animations
+- Smooth scrolling to sections
 
 ### For Admins
 - Secure login to admin panel
@@ -92,6 +99,17 @@ All project documentation is located in the `docs/` directory:
 - [Design Research](docs/design_research.md) - Design research and inspiration
 - [Container Width Fix](docs/container-width-fix.md) - Solution for container width and positioning issues
 - [Qwen Rules](docs/rules/qwen_rules.md) - Qwen Code rules and guidelines
+- [Mobile UX Improvements Plan](docs/mobile-ux-improvements-plan.md) - Mobile UX improvements plan
+- [Mobile UX Technical Implementation](docs/mobile-ux-technical-implementation.md) - Detailed technical implementation guide
+- [Mobile UX Implementation Summary](docs/mobile-ux-implementation-summary.md) - Summary of implemented changes
+- [Mobile UX Test Plan](docs/mobile-ux-test-plan.md) - Testing plan for mobile UX improvements
+- [Website Enhancement Plan](docs/website-enhancement-plan.md) - Website enhancement plan
+- [Website Enhancement Technical Implementation](docs/website-enhancement-technical-implementation.md) - Detailed technical implementation guide
+- [Website Enhancement Implementation Summary](docs/website-enhancement-implementation-summary.md) - Summary of implemented changes
+- [Navigation Enhancement Plan](docs/navigation-enhancement-plan.md) - Navigation enhancement plan
+- [Navigation Enhancement Implementation Summary](docs/navigation-enhancement-implementation-summary.md) - Summary of implemented changes
+- [Navigation Enhancement Update Plan](docs/navigation-enhancement-update-plan.md) - Navigation enhancement update plan
+- [Navigation Enhancement Update Implementation Summary](docs/navigation-enhancement-update-implementation-summary.md) - Summary of implemented updates
 
 ## 🤝 Development Process
 

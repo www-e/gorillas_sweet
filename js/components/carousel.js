@@ -8,6 +8,12 @@ class CarouselManager {
     this.current = 0;
     this.autoSlideInterval = null;
     this.isInitialized = false;
+    // Touch handling properties
+    this.touchStartX = 0;
+    this.touchEndX = 0;
+    this.touchStartY = 0;
+    this.touchEndY = 0;
+    this.isTouching = false;
   }
 
   /**
@@ -74,6 +80,15 @@ class CarouselManager {
 
       this.nav.appendChild(dotEl);
     });
+
+    // Add touch event listeners (only if touch is supported)
+    const hasTouchSupport = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    
+    if (hasTouchSupport && this.slider) {
+      this.slider.addEventListener('touchstart', (e) => this.handleTouchStart(e), { passive: false });
+      this.slider.addEventListener('touchmove', (e) => this.handleTouchMove(e), { passive: false });
+      this.slider.addEventListener('touchend', (e) => this.handleTouchEnd(e), { passive: true });
+    }
   }
 
   /**
@@ -195,6 +210,82 @@ class CarouselManager {
     if (this.autoSlideInterval) {
       clearInterval(this.autoSlideInterval);
       this.autoSlideInterval = null;
+    }
+  }
+
+  /**
+   * Handle touch start event
+   */
+  handleTouchStart(e) {
+    this.isTouching = true;
+    this.touchStartX = e.touches[0].clientX;
+    this.touchStartY = e.touches[0].clientY;
+  }
+
+  /**
+   * Handle touch move event
+   */
+  handleTouchMove(e) {
+    if (!this.isTouching) return;
+    
+    this.touchEndX = e.touches[0].clientX;
+    this.touchEndY = e.touches[0].clientY;
+    
+    const diffX = this.touchStartX - this.touchEndX;
+    const diffY = this.touchStartY - this.touchEndY;
+    
+    // Provide visual feedback during swipe
+    if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 10) {
+      e.preventDefault();
+      // Add a subtle transform to the slider for visual feedback
+      if (this.slider) {
+        this.slider.style.transform = `translateX(${-diffX * 0.2}px)`;
+      }
+    }
+    
+    // Prevent vertical scrolling during horizontal swipe
+    if (Math.abs(diffX) > Math.abs(diffY)) {
+      e.preventDefault();
+    }
+  }
+
+  /**
+   * Handle touch end event
+   */
+  handleTouchEnd(e) {
+    if (!this.isTouching) return;
+    
+    this.isTouching = false;
+    this.touchEndX = e.changedTouches[0].clientX;
+    this.touchEndY = e.changedTouches[0].clientY;
+    
+    this.handleSwipeGesture();
+  }
+
+  /**
+   * Process swipe gesture
+   */
+  handleSwipeGesture() {
+    const swipeThreshold = 50; // Minimum distance for swipe
+    const diffX = this.touchStartX - this.touchEndX;
+    const diffY = this.touchStartY - this.touchEndY;
+    
+    // Reset transform
+    if (this.slider) {
+      this.slider.style.transform = '';
+    }
+    
+    // Check if it's primarily a horizontal swipe
+    if (Math.abs(diffX) > Math.abs(diffY)) {
+      if (Math.abs(diffX) > swipeThreshold) {
+        if (diffX > 0) {
+          // Swipe left - go to next slide
+          this.next();
+        } else {
+          // Swipe right - go to previous slide
+          this.previous();
+        }
+      }
     }
   }
 

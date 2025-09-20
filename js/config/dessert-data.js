@@ -6,8 +6,7 @@ const DESSERT_DATA = {
             id: 'tiramisu',
             flavor: 'Tiramisu Cake',
             image: 'assets/images/tiramisu.webp',
-            price: '$24.99',
-            difficulty: 'Expert',
+            price: 'EGP 750',
             category: 'Premium',
             description: 'Classic Italian dessert with layers of coffee-soaked ladyfingers and mascarpone cream',
             nutritionFacts: {
@@ -36,8 +35,7 @@ const DESSERT_DATA = {
             id: 'red-velvet',
             flavor: 'Red Velvet Cake',
             image: 'assets/images/red-velvet.webp',
-            price: '$22.99',
-            difficulty: 'Easy',
+            price: 'EGP 690',
             category: 'Signature',
             description: 'Rich and decadent red velvet cake with cream cheese frosting',
             nutritionFacts: {
@@ -66,8 +64,7 @@ const DESSERT_DATA = {
             id: 'cheesecake',
             flavor: 'Classic Cheesecake',
             image: 'assets/images/cheesecake.webp',
-            price: '$28.99',
-            difficulty: 'Expert',
+            price: 'EGP 870',
             category: 'Classic',
             description: 'Creamy New York style cheesecake with graham cracker crust',
             nutritionFacts: {
@@ -96,8 +93,7 @@ const DESSERT_DATA = {
             id: 'chocolate',
             flavor: 'Molten Chocolate Cake',
             image: 'assets/images/chocolate.webp',
-            price: '$26.99',
-            difficulty: 'Medium',
+            price: 'EGP 810',
             category: 'Popular',
             description: 'Decadent chocolate cake with a gooey, molten fudge center',
             nutritionFacts: {
@@ -126,8 +122,7 @@ const DESSERT_DATA = {
             id: 'cookies',
             flavor: 'Cookie Crumble Tart',
             image: 'assets/images/cookies.webp',
-            price: '$18.99',
-            difficulty: 'Medium',
+            price: 'EGP 570',
             category: 'Artisan',
             description: 'Buttery tart shell filled with vanilla custard and chocolate chip cookie crumbles',
             nutritionFacts: {
@@ -156,8 +151,7 @@ const DESSERT_DATA = {
             id: 'pistachio',
             flavor: 'Pistachio Delight Tart',
             image: 'assets/images/pistachio.webp',
-            price: '$32.99',
-            difficulty: 'Expert',
+            price: 'EGP 990',
             category: 'Gourmet',
             description: 'Authentic pistachio cream tart with roasted pistachio pieces for perfect crunch',
             nutritionFacts: {
@@ -186,8 +180,7 @@ const DESSERT_DATA = {
             id: 'cupcake',
             flavor: 'Triple Berry Cupcake',
             image: 'assets/images/cupcake.webp',
-            price: '$8.99',
-            difficulty: 'Simple',
+            price: 'EGP 270',
             category: 'Seasonal',
             description: 'Delicate vanilla cupcake topped with fresh strawberries, blueberries, and raspberries',
             nutritionFacts: {
