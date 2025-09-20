@@ -76,29 +76,11 @@ class GorillaApp {
    * Initialize all modules
    */
   async initializeModules() {
-    const initComponent = (componentClass, windowProperty, initCallback) => {
-      if (window[windowProperty]) {
-        // Check if it's a class (constructor) or an instance
-        if (typeof window[windowProperty] === 'function') {
-          // It's a class, so instantiate it
-          this.components[componentClass] = new window[windowProperty]();
-        } else {
-          // It's already an instance or object
-          this.components[componentClass] = window[windowProperty];
-        }
-        
-        if (initCallback) {
-          initCallback(this.components[componentClass]);
-        } else if (this.components[componentClass].init && typeof this.components[componentClass].init === 'function') {
-          this.components[componentClass].init();
-        }
-        return true;
-      }
-      return false;
-    };
-
     // Initialize theme manager
-    initComponent('themeManager', 'ThemeManager');
+    if (window.ThemeManager) {
+      this.components.themeManager = new window.ThemeManager();
+      this.components.themeManager.init();
+    }
 
     // Initialize carousel
     if (window.CarouselManager && window.DESSERT_DATA) {
@@ -108,7 +90,9 @@ class GorillaApp {
     }
 
     // Initialize modal
-    initComponent('modal', 'DessertModal');
+    if (window.DessertModal) {
+      window.DessertModal.init();
+    }
 
     // Initialize gallery (with delay for better UX)
     if (window.GalleryManager) {
@@ -121,6 +105,13 @@ class GorillaApp {
     // Initialize animations
     if (window.AnimationHelpers) {
       window.AnimationHelpers.initScrollAnimations();
+    }
+    
+    // Initialize cart manager to update cart count in header
+    if (window.CartManager) {
+      const cartManager = new window.CartManager();
+      // Update cart count immediately
+      cartManager.updateCartIcon();
     }
   }
 
@@ -152,9 +143,9 @@ class GorillaApp {
       this.handleGlobalKeydown(e);
     });
 
-    // Handle navigation button clicks
+    // Handle navigation button clicks (only buttons, not links)
     document.addEventListener("click", (e) => {
-      if (e.target.classList.contains("nav-button")) {
+      if (e.target.classList.contains("nav-button") && e.target.tagName === 'BUTTON') {
         this.handleComponentEvent('navigationClick', e.target);
       }
     });
@@ -211,8 +202,10 @@ class GorillaApp {
       btn.classList.remove('active');
     });
     
-    // Add active class to clicked button
-    button.classList.add('active');
+    // Add active class to clicked button (if it's a button, not a link)
+    if (button.tagName === 'BUTTON') {
+      button.classList.add('active');
+    }
     
     switch (page) {
       case 'home':
@@ -220,11 +213,8 @@ class GorillaApp {
         window.scrollTo({ top: 0, behavior: 'smooth' });
         break;
       case 'menu':
-        // Navigate to menu page (for now, scroll to gallery section)
-        const gallerySection = document.getElementById('gallery-component');
-        if (gallerySection) {
-          gallerySection.scrollIntoView({ behavior: 'smooth' });
-        }
+        // For menu, we're now using a direct link to menu.html
+        // No need to handle scrolling here
         break;
       case 'about':
         // For now, scroll to gallery section as placeholder
