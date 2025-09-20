@@ -1,30 +1,25 @@
 <main class="flex-grow flex flex-col md:flex-row items-center gap-8 py-12 md:py-16 animate-fade-in">
     <!-- Left Side: Text Content -->
     <div class="w-full md:w-3/5 text-center md:text-left">
-        <h1 class="text-4xl sm:text-6xl lg:text-8xl font-bold leading-none transition-colors duration-300" 
-            style="color: var(--text-primary, #8C3A63);">
+        <h1 class="text-4xl sm:text-6xl lg:text-8xl font-bold leading-none transition-colors duration-300 text-[var(--text-primary)]">
             DELICIOUS<br><span id="hero-title">DESSERTS</span>
         </h1>
-        <p class="max-w-md mx-auto md:mx-0 mt-6 leading-relaxed transition-colors duration-300" 
-           style="color: var(--text-muted, #bba9b1);">
+        <p class="max-w-md mx-auto md:mx-0 mt-6 leading-relaxed transition-colors duration-300 text-[var(--text-muted)]">
             Handcrafted desserts made with love and the finest ingredients. Each bite tells a story of passion, tradition, and culinary excellence.
         </p>
         
         <!-- Mobile-Optimized Button Layout -->
         <div class="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-3 sm:gap-4 mt-8">
-            <button class="w-full sm:w-auto font-bold py-3 px-6 sm:px-7 rounded-full transform hover:-translate-y-1 transition-all duration-300 text-white shadow-lg whitespace-nowrap"
-                    style="background: linear-gradient(45deg, var(--btn-gradient-from, #C75B8F), var(--btn-gradient-to, #e08bb6));">
+            <button class="w-full sm:w-auto font-bold py-3 px-6 sm:px-7 rounded-full transform hover:-translate-y-1 transition-all duration-300 text-white shadow-lg whitespace-nowrap bg-gradient-to-r from-[var(--btn-gradient-from)] to-[var(--btn-gradient-to)]">
                 ORDER NOW
             </button>
-            <button class="w-full sm:w-auto border-2 font-bold py-3 px-6 sm:px-7 rounded-full transform hover:-translate-y-1 transition-all duration-300 whitespace-nowrap"
-                    style="border-color: var(--btn-ghost-border, #f0e4e9); color: var(--text-secondary, #6D2E4D);">
+            <button class="w-full sm:w-auto border-2 font-bold py-3 px-6 sm:px-7 rounded-full transform hover:-translate-y-1 transition-all duration-300 whitespace-nowrap border-[var(--btn-ghost-border)] text-[var(--text-secondary)]">
                 MORE INFO
             </button>
         </div>
         
         <div class="flex items-center justify-center md:justify-start gap-4 mt-8">
-            <span class="font-bold text-sm sm:text-base transition-colors duration-300" 
-                  style="color: var(--text-secondary, #6D2E4D);">
+            <span class="font-bold text-sm sm:text-base transition-colors duration-300 text-[var(--text-secondary)]">
                 10K+ Reviews ⭐⭐⭐⭐⭐
             </span>
         </div>
@@ -40,6 +35,6 @@
 <!-- Wave Separator -->
 <svg class="w-full" viewBox="0 0 1000 60" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
     <path class="transition-all duration-600" 
-          style="fill: var(--wave-fill, #FFF6FA);" 
+          fill="var(--wave-fill, #FFF6FA)"
           d="M0,60 C250,0 750,0 1000,60 L1000,60 L0,60 Z"/>
 </svg>

@@ -23,6 +23,7 @@ The website is designed to be hosted on GitHub Pages with Supabase handling all 
 - Improved modal layout with better nutrition facts display
 - Modern navigation with active states, permanent shapes, and hover animations
 - Smooth scrolling to sections
+- Optimized codebase for better performance
 
 ### For Admins
 - Secure login to admin panel
@@ -110,6 +111,8 @@ All project documentation is located in the `docs/` directory:
 - [Navigation Enhancement Implementation Summary](docs/navigation-enhancement-implementation-summary.md) - Summary of implemented changes
 - [Navigation Enhancement Update Plan](docs/navigation-enhancement-update-plan.md) - Navigation enhancement update plan
 - [Navigation Enhancement Update Implementation Summary](docs/navigation-enhancement-update-implementation-summary.md) - Summary of implemented updates
+- [Code Optimization Plan](docs/code-optimization-plan.md) - Code optimization plan
+- [Code Optimization Implementation Summary](docs/code-optimization-implementation-summary.md) - Summary of code optimization
 
 ## 🤝 Development Process
 

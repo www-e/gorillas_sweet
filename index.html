@@ -12,7 +12,7 @@
     <link rel="icon" type="image/webp" href="assets/images/logo.webp" />
 
     <!-- Tailwind CSS CDN with custom config -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.tailwindcss.com/3.4.3"></script>
     <script>
       // Custom Tailwind configuration
       tailwind.config = {
@@ -50,111 +50,19 @@
 
     <!-- Prevent horizontal scrolling on mobile -->
     <style>
-      body {
-        overflow-x: hidden;
-        position: relative;
-        max-width: 100vw;
-        width: 100%;
-      }
-
-      #app-container,
-      #page-container {
-        overflow-x: hidden;
-        max-width: 100%;
-        width: 100%;
-        position: relative;
-      }
-
-      #hero-component main {
-        overflow-x: hidden;
-        max-width: 100%;
-      }
-
-      .image-slider {
-        touch-action: pan-y pinch-zoom;
-        /* This allows vertical scrolling and pinch-zoom but prevents horizontal panning */
-      }
-
+      /* Box sizing for all elements */
       * {
         box-sizing: border-box;
-      }
-
-      img, video, svg {
-        max-width: 100%;
-      }
-
-      /* Text transition animation for hero section */
-      @keyframes textFadeIn {
-        0% {
-          opacity: 0;
-          transform: translateY(10px);
-        }
-        100% {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-
-      .text-transition {
-        animation: textFadeIn 0.4s ease-out forwards;
-      }
-
-      /* Navigation button active state */
-      .nav-button.active {
-        background-color: var(--hero-card-bg, #fff6fa);
-        color: var(--text-primary, #8C3A63) !important;
-        font-weight: bold;
-      }
-
-      /* Permanent shape around active button */
-      .nav-button.active::before {
-        content: '';
-        position: absolute;
-        top: -4px;
-        left: -4px;
-        right: -4px;
-        bottom: -4px;
-        border: 2px solid var(--text-primary, #8C3A63);
-        border-radius: 9999px;
-        z-index: -1;
-        animation: pulse 2s infinite;
-      }
-
-      /* Hover animations for navigation buttons */
-      .nav-button {
-        transform: scale(1);
-        transition: all 0.3s ease;
-        position: relative;
-        z-index: 1;
-      }
-
-      .nav-button:hover {
-        transform: scale(1.05);
-      }
-
-      .nav-button:active {
-        transform: scale(0.98);
-      }
-
-      /* Pulse animation for active button shape */
-      @keyframes pulse {
-        0% {
-          transform: scale(1);
-          opacity: 1;
-        }
-        50% {
-          transform: scale(1.05);
-          opacity: 0.7;
-        }
-        100% {
-          transform: scale(1);
-          opacity: 1;
-        }
       }
 
       /* Smooth scrolling */
       html {
         scroll-behavior: smooth;
+      }
+      
+      /* Image elements responsive */
+      img, video, svg {
+        max-width: 100%;
       }
     </style>
 

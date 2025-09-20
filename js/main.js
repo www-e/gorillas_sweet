@@ -76,11 +76,29 @@ class GorillaApp {
    * Initialize all modules
    */
   async initializeModules() {
+    const initComponent = (componentClass, windowProperty, initCallback) => {
+      if (window[windowProperty]) {
+        // Check if it's a class (constructor) or an instance
+        if (typeof window[windowProperty] === 'function') {
+          // It's a class, so instantiate it
+          this.components[componentClass] = new window[windowProperty]();
+        } else {
+          // It's already an instance or object
+          this.components[componentClass] = window[windowProperty];
+        }
+        
+        if (initCallback) {
+          initCallback(this.components[componentClass]);
+        } else if (this.components[componentClass].init && typeof this.components[componentClass].init === 'function') {
+          this.components[componentClass].init();
+        }
+        return true;
+      }
+      return false;
+    };
+
     // Initialize theme manager
-    if (window.ThemeManager) {
-      this.components.themeManager = new window.ThemeManager();
-      this.components.themeManager.init();
-    }
+    initComponent('themeManager', 'ThemeManager');
 
     // Initialize carousel
     if (window.CarouselManager && window.DESSERT_DATA) {
@@ -90,9 +108,7 @@ class GorillaApp {
     }
 
     // Initialize modal
-    if (window.DessertModal) {
-      window.DessertModal.init();
-    }
+    initComponent('modal', 'DessertModal');
 
     // Initialize gallery (with delay for better UX)
     if (window.GalleryManager) {
@@ -139,12 +155,34 @@ class GorillaApp {
     // Handle navigation button clicks
     document.addEventListener("click", (e) => {
       if (e.target.classList.contains("nav-button")) {
-        this.handleNavigation(e.target);
+        this.handleComponentEvent('navigationClick', e.target);
       }
     });
 
     // Set initial active state
     this.setActiveNavigation("home");
+  }
+
+  /**
+   * Unified event handler for component interactions
+   */
+  handleComponentEvent(eventType, eventData) {
+    switch (eventType) {
+      case 'carouselSlideChange':
+        if (this.components.carouselManager && !window.DessertModal?.isOpen) {
+          if (eventData.key === "ArrowLeft") {
+            eventData.preventDefault();
+            this.components.carouselManager.previous();
+          } else if (eventData.key === "ArrowRight") {
+            eventData.preventDefault();
+            this.components.carouselManager.next();
+          }
+        }
+        break;
+      case 'navigationClick':
+        this.handleNavigation(eventData);
+        break;
+    }
   }
 
   /**
@@ -159,16 +197,7 @@ class GorillaApp {
    * Handle global keyboard events
    */
   handleGlobalKeydown(event) {
-    // Arrow key navigation for carousel (when not in modal)
-    if (this.components.carouselManager && !window.DessertModal?.isOpen) {
-      if (event.key === "ArrowLeft") {
-        event.preventDefault();
-        this.components.carouselManager.previous();
-      } else if (event.key === "ArrowRight") {
-        event.preventDefault();
-        this.components.carouselManager.next();
-      }
-    }
+    this.handleComponentEvent('carouselSlideChange', event);
   }
 
   /**

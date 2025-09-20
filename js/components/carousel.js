@@ -234,18 +234,13 @@ class CarouselManager {
     const diffX = this.touchStartX - this.touchEndX;
     const diffY = this.touchStartY - this.touchEndY;
     
-    // Provide visual feedback during swipe
+    // Provide visual feedback during swipe and prevent vertical scrolling
     if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 10) {
       e.preventDefault();
       // Add a subtle transform to the slider for visual feedback
       if (this.slider) {
         this.slider.style.transform = `translateX(${-diffX * 0.2}px)`;
       }
-    }
-    
-    // Prevent vertical scrolling during horizontal swipe
-    if (Math.abs(diffX) > Math.abs(diffY)) {
-      e.preventDefault();
     }
   }
 
@@ -287,15 +282,6 @@ class CarouselManager {
         }
       }
     }
-  }
-
-  /**
-   * Destroy carousel
-   */
-  destroy() {
-    this.stopAutoSlide();
-    this.isInitialized = false;
-    console.log("Carousel destroyed");
   }
 }
 
