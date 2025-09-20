@@ -73,7 +73,7 @@
       style="background-color: var(--page-bg, #ffe8f4)">
   
   <!-- Main App Container -->
-  <div class="opacity-0 p-4 sm:p-6 lg:p-8">
+  <div class="p-4 sm:p-6 lg:p-8">
     <!-- Page Container -->
     <div
       class="w-11/12 sm:w-11/12 md:w-[95%] max-w-screen-2xl mx-auto rounded-[35px] shadow-2xl shadow-black/5 flex flex-col p-6 sm:p-8 md:p-12 transition-colors duration-600"
@@ -241,5 +241,13 @@
   <script src="js/components/product-filter.js"></script>
   <script src="js/components/product-grid.js"></script>
   <script src="js/pages/menu.js"></script>
+  
+  <script>
+    // Initialize when DOM is ready
+    document.addEventListener('DOMContentLoaded', async () => {
+      const menuPage = new MenuPage();
+      await menuPage.init();
+    });
+  </script>
 </body>
 </html>
