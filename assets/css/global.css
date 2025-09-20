@@ -1,0 +1,19 @@
+/* Global styles to prevent horizontal scrolling on mobile */
+body {
+  overflow-x: hidden;
+}
+
+/* Box sizing for all elements */
+* {
+  box-sizing: border-box;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Image elements responsive */
+img, video, svg {
+  max-width: 100%;
+}

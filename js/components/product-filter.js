@@ -1,14 +1,12 @@
-/* js/components/product-filter.js - Product filtering and sorting functionality */
+/* js/components/product-filter.js - Product filtering functionality */
 
 class ProductFilter {
   constructor() {
     this.products = [];
     this.filterCallbacks = [];
     this.searchCallbacks = [];
-    this.sortCallbacks = [];
     this.currentCategory = 'all';
     this.currentSearch = '';
-    this.currentSort = 'name';
   }
 
   /**
@@ -43,14 +41,6 @@ class ProductFilter {
         }, 300);
       });
     }
-
-    // Sort select
-    const sortSelect = document.getElementById('sort-select');
-    if (sortSelect) {
-      sortSelect.addEventListener('change', (e) => {
-        this.setSort(e.target.value);
-      });
-    }
   }
 
   /**
@@ -79,14 +69,6 @@ class ProductFilter {
    */
   setSearch(searchTerm) {
     this.currentSearch = searchTerm.toLowerCase();
-    this.applyFilters();
-  }
-
-  /**
-   * Set current sort option
-   */
-  setSort(sortOption) {
-    this.currentSort = sortOption;
     this.applyFilters();
   }
 
@@ -121,50 +103,8 @@ class ProductFilter {
       );
     }
     
-    // Apply sorting
-    filtered = this.sortProducts(filtered, this.currentSort);
-    
     // Notify listeners
     this.notifyFilterChange(filtered);
-  }
-
-  /**
-   * Sort products based on sort option
-   */
-  sortProducts(products, sortOption) {
-    const sorted = [...products];
-    
-    switch (sortOption) {
-      case 'price-low':
-        return sorted.sort((a, b) => {
-          const priceA = parseFloat(a.price.replace(/[^\d.]/g, ''));
-          const priceB = parseFloat(b.price.replace(/[^\d.]/g, ''));
-          return priceA - priceB;
-        });
-      case 'price-high':
-        return sorted.sort((a, b) => {
-          const priceA = parseFloat(a.price.replace(/[^\d.]/g, ''));
-          const priceB = parseFloat(b.price.replace(/[^\d.]/g, ''));
-          return priceB - priceA;
-        });
-      case 'popularity':
-        // For demo, we'll sort by category (premium first)
-        return sorted.sort((a, b) => {
-          const priority = {
-            'Premium': 1,
-            'Signature': 2,
-            'Popular': 3,
-            'Classic': 4,
-            'Seasonal': 5,
-            'Artisan': 6,
-            'Gourmet': 7
-          };
-          return (priority[a.category] || 99) - (priority[b.category] || 99);
-        });
-      case 'name':
-      default:
-        return sorted.sort((a, b) => a.flavor.localeCompare(b.flavor));
-    }
   }
 
   /**
@@ -173,14 +113,11 @@ class ProductFilter {
   resetFilters() {
     this.currentCategory = 'all';
     this.currentSearch = '';
-    this.currentSort = 'name';
     
     // Reset UI
     const searchInput = document.getElementById('search-input');
-    const sortSelect = document.getElementById('sort-select');
     
     if (searchInput) searchInput.value = '';
-    if (sortSelect) sortSelect.value = 'name';
     
     document.querySelectorAll('.filter-btn').forEach(btn => {
       if (btn.dataset.category === 'all') {
@@ -210,13 +147,6 @@ class ProductFilter {
   }
 
   /**
-   * Notify sort change listeners
-   */
-  notifySortChange(sortedProducts) {
-    this.sortCallbacks.forEach(callback => callback(sortedProducts));
-  }
-
-  /**
    * Register filter change callback
    */
   onFilterChange(callback) {
@@ -228,12 +158,5 @@ class ProductFilter {
    */
   onSearchChange(callback) {
     this.searchCallbacks.push(callback);
-  }
-
-  /**
-   * Register sort change callback
-   */
-  onSortChange(callback) {
-    this.sortCallbacks.push(callback);
   }
 }

@@ -50,23 +50,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;700&display=swap" rel="stylesheet">
   
-  <!-- Prevent horizontal scrolling on mobile -->
-  <style>
-    /* Box sizing for all elements */
-    * {
-      box-sizing: border-box;
-    }
-
-    /* Smooth scrolling */
-    html {
-      scroll-behavior: smooth;
-    }
-    
-    /* Image elements responsive */
-    img, video, svg {
-      max-width: 100%;
-    }
-  </style>
+  <!-- Global styles -->
+  <link rel="stylesheet" href="assets/css/global.css">
 </head>
 
 <body class="font-fredoka min-h-screen transition-colors duration-600 ease-in-out" 
@@ -159,18 +144,6 @@
             Seasonal
           </button>
         </div>
-      </div>
-      
-      <!-- Sorting -->
-      <div class="flex justify-end">
-        <select id="sort-select" 
-                class="px-4 py-2 rounded-full border-2 focus:outline-none focus:ring-2 focus:ring-pink-300 transition-all duration-300"
-                style="border-color: var(--btn-ghost-border, #f0e4e9); color: var(--text-secondary, #6D2E4D);">
-          <option value="name">Sort by Name</option>
-          <option value="price-low">Price: Low to High</option>
-          <option value="price-high">Price: High to Low</option>
-          <option value="popularity">Popularity</option>
-        </select>
       </div>
     </div>
     

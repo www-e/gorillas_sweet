@@ -79,12 +79,6 @@ class MenuPage {
       this.displayProducts();
     });
     
-    // Listen for sort changes
-    this.filterComponent.onSortChange((sortedProducts) => {
-      this.filteredProducts = sortedProducts;
-      this.displayProducts();
-    });
-    
     // Reset filters button
     const resetBtn = document.getElementById('reset-filters');
     if (resetBtn) {
