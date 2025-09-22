@@ -1,7 +1,10 @@
+<!-- Header with Modern Drawer Navigation -->
 <header class="flex items-center justify-between z-10 animate-fade-in">
-    <h2 class="text-2xl font-bold transition-colors duration-300 text-[var(--text-secondary)]">
+    <h2 class="text-2xl font-bold transition-colors duration-300 text-[#6D2E4D]">
         Gorilla Sweet
     </h2>
+    
+    <!-- Desktop Navigation -->
     <nav class="hidden md:flex items-center gap-8">
         <button class="nav-button font-bold relative transition-all duration-300 rounded-full px-4 py-2 hover:bg-gray-100 active:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-300 text-[var(--text-secondary)] font-bold" data-page="home">
             Home
@@ -16,17 +19,96 @@
             Contact
         </button>
     </nav>
+    
     <div class="flex items-center gap-4">
         <a href="cart.html" class="relative flex items-center justify-center w-10 h-10 rounded-full bg-white shadow-md hover:shadow-lg transition-all duration-300">
-            <svg class="w-5 h-5 text-[var(--text-secondary)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg class="w-5 h-5 text-[#6D2E4D]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
             </svg>
             <span class="cart-count absolute -top-2 -right-2 w-5 h-5 rounded-full bg-pink-500 text-white text-xs flex items-center justify-center font-bold hidden">0</span>
         </a>
-        <div class="flex items-center gap-2">
-            <span class="w-3 h-3 rounded-full border border-[var(--btn-ghost-border)] transition-colors duration-300"></span>
-            <span class="w-3 h-3 rounded-full border border-[var(--btn-ghost-border)] transition-colors duration-300"></span>
-            <span class="w-3 h-3 rounded-full border border-[var(--btn-ghost-border)] transition-colors duration-300"></span>
-        </div>
+        
+        <!-- Hamburger Menu for Mobile Drawer -->
+        <button id="drawer-toggle" class="md:hidden flex flex-col justify-center items-center gap-1 w-10 h-10 rounded-full bg-white shadow-md hover:shadow-lg transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-gray-300">
+            <span class="w-5 h-0.5 bg-[#6D2E4D] transition-all duration-300"></span>
+            <span class="w-5 h-0.5 bg-[#6D2E4D] transition-all duration-300"></span>
+            <span class="w-5 h-0.5 bg-[#6D2E4D] transition-all duration-300"></span>
+        </button>
     </div>
 </header>
+
+<!-- Modern Drawer Component -->
+<div id="mobile-drawer" class="fixed inset-0 z-50 hidden">
+    <!-- Backdrop Overlay -->
+    <div id="drawer-backdrop" class="absolute inset-0 bg-black bg-opacity-50 transition-opacity duration-300"></div>
+    
+    <!-- Drawer Panel -->
+    <div id="drawer-panel" class="absolute inset-y-0 right-0 w-full max-w-sm bg-white shadow-xl transform transition-transform duration-300 ease-in-out translate-x-full flex flex-col">
+        <!-- Drawer Header -->
+        <div class="flex items-center justify-between p-6 border-b border-gray-200">
+            <h3 class="text-xl font-bold text-[var(--text-secondary)]">Menu</h3>
+            <button id="drawer-close" class="p-2 rounded-full hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-300">
+                <svg class="w-6 h-6 text-[var(--text-secondary)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+        </div>
+        
+        <!-- Drawer Navigation -->
+        <nav class="flex-grow py-6 px-4">
+            <ul class="space-y-2">
+                <li>
+                    <button class="nav-button w-full text-left px-4 py-3 rounded-xl font-bold text-[var(--text-secondary)] hover:bg-gray-100 active:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-300 flex items-center justify-between" data-page="home">
+                        <span>Home</span>
+                        <svg class="w-5 h-5 text-[var(--text-secondary)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                        </svg>
+                    </button>
+                </li>
+                <li>
+                    <a href="menu.html" class="nav-button w-full text-left px-4 py-3 rounded-xl font-medium text-[var(--text-secondary)] hover:bg-gray-100 active:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-300 flex items-center justify-between" data-page="menu">
+                        <span>Menu</span>
+                        <svg class="w-5 h-5 text-[var(--text-secondary)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+                        </svg>
+                    </a>
+                </li>
+                <li>
+                    <button class="nav-button w-full text-left px-4 py-3 rounded-xl font-medium text-[var(--text-secondary)] hover:bg-gray-100 active:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-300 flex items-center justify-between" data-page="about">
+                        <span>About</span>
+                        <svg class="w-5 h-5 text-[var(--text-secondary)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </button>
+                </li>
+                <li>
+                    <button class="nav-button w-full text-left px-4 py-3 rounded-xl font-medium text-[var(--text-secondary)] hover:bg-gray-100 active:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-300 flex items-center justify-between" data-page="contact">
+                        <span>Contact</span>
+                        <svg class="w-5 h-5 text-[var(--text-secondary)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                        </svg>
+                    </button>
+                </li>
+            </ul>
+        </nav>
+        
+        <!-- Drawer Footer -->
+        <div class="p-6 border-t border-gray-200">
+            <div class="flex items-center justify-between">
+                <span class="text-sm text-gray-500">© 2025 Gorilla Sweet</span>
+                <div class="flex items-center gap-2">
+                    <a href="#" class="p-2 rounded-full hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-300">
+                        <svg class="w-5 h-5 text-[var(--text-secondary)]" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"/>
+                        </svg>
+                    </a>
+                    <a href="#" class="p-2 rounded-full hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-300">
+                        <svg class="w-5 h-5 text-[var(--text-secondary)]" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

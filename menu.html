@@ -64,39 +64,8 @@
       class="w-11/12 sm:w-11/12 md:w-[95%] max-w-screen-2xl mx-auto rounded-[35px] shadow-2xl shadow-black/5 flex flex-col p-6 sm:p-8 md:p-12 transition-colors duration-600"
       style="background-color: var(--hero-card-bg, #fff6fa)"
     >
-      <!-- Header -->
-      <header class="flex items-center justify-between z-10 animate-fade-in">
-        <h2 class="text-2xl font-bold transition-colors duration-300 text-[var(--text-secondary)]">
-          Gorilla Sweet
-        </h2>
-        <nav class="hidden md:flex items-center gap-8">
-          <a href="index.html" class="nav-button font-medium relative transition-all duration-300 rounded-full px-4 py-2 hover:bg-gray-100 active:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-300 text-[var(--text-muted)]" data-page="home">
-            Home
-          </a>
-          <a href="menu.html" class="nav-button font-bold relative transition-all duration-300 rounded-full px-4 py-2 hover:bg-gray-100 active:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-300 text-[var(--text-secondary)] font-bold" data-page="menu">
-            Menu
-          </a>
-          <a href="#about" class="nav-button font-medium relative transition-all duration-300 rounded-full px-4 py-2 hover:bg-gray-100 active:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-300 text-[var(--text-muted)]" data-page="about">
-            About
-          </a>
-          <a href="#contact" class="nav-button font-medium relative transition-all duration-300 rounded-full px-4 py-2 hover:bg-gray-100 active:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-300 text-[var(--text-muted)]" data-page="contact">
-            Contact
-          </a>
-        </nav>
-        <div class="flex items-center gap-4">
-          <a href="cart.html" class="relative flex items-center justify-center w-10 h-10 rounded-full bg-white shadow-md hover:shadow-lg transition-all duration-300">
-            <svg class="w-5 h-5 text-[var(--text-secondary)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
-            </svg>
-            <span class="cart-count absolute -top-2 -right-2 w-5 h-5 rounded-full bg-pink-500 text-white text-xs flex items-center justify-center font-bold hidden">0</span>
-          </a>
-          <div class="flex items-center gap-2">
-            <span class="w-3 h-3 rounded-full border border-[var(--btn-ghost-border)] transition-colors duration-300"></span>
-            <span class="w-3 h-3 rounded-full border border-[var(--btn-ghost-border)] transition-colors duration-300"></span>
-            <span class="w-3 h-3 rounded-full border border-[var(--btn-ghost-border)] transition-colors duration-300"></span>
-          </div>
-        </div>
-      </header>
+      <!-- Header Component -->
+      <div id="header-component"></div>
       
       <!-- Main Content -->
       <main class="flex-grow">
@@ -210,6 +179,9 @@
 
   <!-- JavaScript -->
   <script src="js/config/dessert-data.js"></script>
+  <script src="js/utils/dom-loader.js"></script>
+  <script src="js/components/drawer.js"></script>
+  <script src="js/utils/page-init.js"></script>
   <script src="js/utils/cart-manager.js"></script>
   <script src="js/components/product-filter.js"></script>
   <script src="js/components/product-grid.js"></script>

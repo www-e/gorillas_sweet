@@ -113,6 +113,15 @@ class GorillaApp {
       // Update cart count immediately
       cartManager.updateCartIcon();
     }
+    
+    // Initialize drawer manager for index page
+    setTimeout(() => {
+      if (document.getElementById('mobile-drawer')) {
+        if (typeof DrawerManager !== 'undefined' && !window.DrawerManagerInstance) {
+          window.DrawerManagerInstance = new DrawerManager();
+        }
+      }
+    }, 100);
   }
 
   /**
