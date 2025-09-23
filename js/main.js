@@ -227,7 +227,7 @@ class GorillaApp {
       btn.classList.remove('active');
     });
     
-    // Add active class to clicked button (if it's a button, not a link)
+    // Add active class to specified button
     if (button.tagName === 'BUTTON') {
       button.classList.add('active');
     }
@@ -242,11 +242,8 @@ class GorillaApp {
         // No need to handle scrolling here
         break;
       case 'about':
-        // For now, scroll to gallery section as placeholder
-        const gallerySectionAbout = document.getElementById('gallery-component');
-        if (gallerySectionAbout) {
-          gallerySectionAbout.scrollIntoView({ behavior: 'smooth' });
-        }
+        // For about, we're now using a direct link to about.html
+        // No need to handle scrolling here
         break;
       case 'contact':
         // Scroll to social section at bottom

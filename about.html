@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0"
+    />
+    <title>Gorilla Sweet - About Our Story</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/webp" href="assets/images/logo.webp" />
+
+    <!-- Tailwind CSS CDN with custom config -->
+    <script src="https://cdn.tailwindcss.com/3.4.3"></script>
+    <script>
+      // Custom Tailwind configuration
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              fredoka: ["Fredoka", "sans-serif"],
+            },
+            animation: {
+              "spin-slow": "spin 2s linear infinite",
+              "bounce-gentle": "bounce 2s infinite",
+              "fade-in": "fadeIn 0.6s ease-out forwards",
+              "slide-up": "slideUp 0.6s ease-out forwards",
+              "float": "float 3s ease-in-out infinite",
+              "pulse-slow": "pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite"
+            },
+            keyframes: {
+              fadeIn: {
+                "0%": { opacity: "0", transform: "translateY(20px)" },
+                "100%": { opacity: "1", transform: "translateY(0)" },
+              },
+              slideUp: {
+                "0%": { opacity: "0", transform: "translateY(40px)" },
+                "100%": { opacity: "1", transform: "translateY(0)" },
+              },
+              float: {
+                "0%, 100%": { transform: "translateY(0)" },
+                "50%": { transform: "translateY(-10px)" }
+              }
+            },
+          },
+        },
+      };
+    </script>
+
+    <!-- Global styles -->
+    <link rel="stylesheet" href="assets/css/global.css">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body
+    class="font-fredoka min-h-screen transition-colors duration-600 ease-in-out"
+    style="background-color: var(--page-bg, #ffe8f4)"
+  >
+    <!-- Loading Screen -->
+    <div
+      id="loading-screen"
+      class="fixed inset-0 bg-pink-50 flex items-center justify-center z-50"
+    >
+      <div class="text-center">
+        <div
+          class="animate-spin-slow w-12 h-12 border-4 border-pink-200 border-t-pink-500 rounded-full mx-auto mb-4"
+        ></div>
+        <p class="text-pink-600 font-medium">Loading delicious desserts...</p>
+      </div>
+    </div>
+
+    <!-- Main App Container -->
+    <div id="app-container" class="opacity-0 p-4 sm:p-6 lg:p-8">
+      <!-- Page Container -->
+      <div
+        id="page-container"
+        class="w-11/12 sm:w-11/12 md:w-[90%] max-w-screen-2xl mx-auto rounded-[35px] shadow-2xl shadow-black/5 flex flex-col p-6 sm:p-8 md:p-12 transition-colors duration-600"
+        style="background-color: var(--hero-card-bg, #fff6fa)"
+      >
+        <!-- Components will be loaded here -->
+        <div id="header-component"></div>
+        <div id="founder-component"></div>
+        <div id="testimonials-component"></div>
+        <div id="wave-separator-2"></div>
+        <div id="about-social-component"></div>
+        <div id="footer-component"></div>
+      </div>
+    </div>
+
+    <!-- Modal Container -->
+    <div id="modal-container"></div>
+
+    <script src="js/config/dessert-data.js"></script>
+    <script src="js/utils/dom-loader.js"></script>
+    <script src="js/utils/animation-helpers.js"></script>
+    <script src="js/components/theme-manager.js"></script>
+    <script src="js/components/founder.js"></script>
+    <script src="js/components/testimonials.js"></script>
+    <script src="js/components/modal.js"></script>
+    <script src="js/components/drawer.js"></script>
+    <script src="js/utils/page-init.js"></script>
+    <script>
+      // Simplified initialization for about page
+      document.addEventListener("DOMContentLoaded", async () => {
+        // Show loading screen
+        if (window.DOMLoader) {
+          window.DOMLoader.showLoading();
+        }
+
+        // Load components
+        const components = [
+          { path: "components/header.html", target: "#header-component" },
+          { path: "components/founder.html", target: "#founder-component" },
+          { path: "components/testimonials.html", target: "#testimonials-component" },
+          { path: "components/wave-separator-2.html", target: "#wave-separator-2" },
+          { path: "components/about-social.html", target: "#about-social-component" },
+          { path: "components/footer.html", target: "#footer-component" },
+          { path: "components/modal.html", target: "#modal-container" },
+        ];
+
+        await window.DOMLoader.loadComponents(components);
+
+        // Initialize modules
+        if (window.ThemeManager) {
+          const themeManager = new window.ThemeManager();
+          themeManager.init();
+          
+          // Apply a default theme
+          if (window.DESSERT_DATA) {
+            // Get the first theme as default
+            const defaultTheme = Object.values(window.DESSERT_DATA.themes)[0];
+            if (defaultTheme && defaultTheme.colors) {
+              themeManager.applyTheme(defaultTheme.colors);
+            }
+          }
+        }
+
+        if (window.FounderManager) {
+          const founderManager = new window.FounderManager();
+          founderManager.init();
+        }
+
+        if (window.TestimonialsManager) {
+          const testimonialsManager = new window.TestimonialsManager();
+          setTimeout(() => {
+            testimonialsManager.init();
+          }, 1000);
+        }
+
+        if (window.AnimationHelpers) {
+          window.AnimationHelpers.initScrollAnimations();
+        }
+
+        // Hide loading and show app
+        if (window.DOMLoader) {
+          window.DOMLoader.hideLoading();
+        }
+
+        console.log("About page initialized successfully");
+      });
+    </script>
+  </body>
+</html>
