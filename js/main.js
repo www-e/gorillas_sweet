@@ -57,7 +57,9 @@ class GorillaApp {
     const components = [
       { path: "components/header.html", target: "#header-component" },
       { path: "components/hero.html", target: "#hero-component" },
+      { path: "components/founder.html", target: "#founder-component" },
       { path: "components/gallery.html", target: "#gallery-component" },
+      { path: "components/testimonials.html", target: "#testimonials-component" },
       { path: "components/wave-separator-2.html", target: "#wave-separator-2" },
       { path: "components/social.html", target: "#social-component" },
       { path: "components/footer.html", target: "#footer-component" },
@@ -100,6 +102,20 @@ class GorillaApp {
       setTimeout(() => {
         this.components.galleryManager.init();
       }, 500);
+    }
+
+    // Initialize founder section
+    if (window.FounderManager) {
+      const founderManager = new window.FounderManager();
+      founderManager.init();
+    }
+
+    // Initialize testimonials carousel
+    if (window.TestimonialsManager) {
+      const testimonialsManager = new window.TestimonialsManager();
+      setTimeout(() => {
+        testimonialsManager.init();
+      }, 1000);
     }
 
     // Initialize animations

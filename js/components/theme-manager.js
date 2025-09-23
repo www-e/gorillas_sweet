@@ -79,12 +79,46 @@ class ThemeManager {
   }
 
   /**
+   * Update founder section colors
+   */
+  updateFounderTheme(themeColors) {
+    if (!themeColors) return;
+
+    // Update section title
+    const sectionTitle = document.querySelector("#founder-component h2");
+    if (sectionTitle) {
+      sectionTitle.style.color = themeColors["--text-secondary"];
+    }
+
+    // Update founder name
+    const founderName = document.querySelector("#founder-component h3");
+    if (founderName) {
+      founderName.style.color = themeColors["--text-primary"];
+    }
+  }
+
+  /**
+   * Update testimonials section colors
+   */
+  updateTestimonialsTheme(themeColors) {
+    if (!themeColors) return;
+
+    // Update section title
+    const sectionTitle = document.querySelector("#testimonials-component h2");
+    if (sectionTitle) {
+      sectionTitle.style.color = themeColors["--text-secondary"];
+    }
+  }
+
+  /**
    * Handle theme change from carousel
    */
   onCarouselChange(index, dessertData) {
     this.applyTheme(dessertData.colors);
     this.updateHeroTitle(dessertData.flavor);
     this.updateGalleryTheme(dessertData.colors);
+    this.updateFounderTheme(dessertData.colors);
+    this.updateTestimonialsTheme(dessertData.colors);
 
     console.log(`Theme updated: ${dessertData.flavor}`);
   }
