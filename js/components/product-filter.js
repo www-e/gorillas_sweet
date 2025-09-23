@@ -77,7 +77,7 @@ class ProductFilter {
    */
   applyFilters() {
     let filtered = [...this.products];
-    
+
     // Apply category filter
     if (this.currentCategory !== 'all') {
       filtered = filtered.filter(product => {
@@ -94,15 +94,15 @@ class ProductFilter {
         }
       });
     }
-    
+
     // Apply search filter
     if (this.currentSearch) {
-      filtered = filtered.filter(product => 
+      filtered = filtered.filter(product =>
         product.flavor.toLowerCase().includes(this.currentSearch) ||
         product.description.toLowerCase().includes(this.currentSearch)
       );
     }
-    
+
     // Notify listeners
     this.notifyFilterChange(filtered);
   }

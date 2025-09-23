@@ -67,12 +67,35 @@ class ProductGrid {
           </p>
           
           <div class="flex items-center justify-between mb-4">
-            <span class="text-2xl font-bold transition-colors duration-300" 
+            <span class="text-2xl font-bold transition-colors duration-300"
                   style="color: var(--text-primary, #8C3A63);">
               ${product.price}
             </span>
           </div>
-          
+
+          <!-- Quantity Controls -->
+          <div class="flex items-center justify-center mb-4">
+            <div class="flex items-center bg-gray-100 rounded-full p-1">
+              <button class="quantity-btn w-8 h-8 rounded-full flex items-center justify-center font-bold transition-all duration-200 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-pink-300"
+                      data-action="decrease"
+                      data-product-id="${product.id}"
+                      style="color: var(--text-secondary, #6D2E4D);">
+                −
+              </button>
+              <span class="quantity-display w-12 text-center font-bold"
+                    data-product-id="${product.id}"
+                    style="color: var(--text-secondary, #6D2E4D);">
+                1
+              </span>
+              <button class="quantity-btn w-8 h-8 rounded-full flex items-center justify-center font-bold transition-all duration-200 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-pink-300"
+                      data-action="increase"
+                      data-product-id="${product.id}"
+                      style="color: var(--text-secondary, #6D2E4D);">
+                +
+              </button>
+            </div>
+          </div>
+
           <button class="add-to-cart-btn w-full py-3 rounded-full font-bold transition-all duration-300 hover:scale-105"
                   style="background: linear-gradient(45deg, var(--btn-gradient-from, #C75B8F), var(--btn-gradient-to, #e08bb6)); color: white;"
                   data-product-id="${product.id}">
@@ -83,15 +106,45 @@ class ProductGrid {
     `;
     
     // Add event listener to the add to cart button
-    const addButton = card.querySelector('.add-to-cart-btn');
-    if (addButton) {
-      addButton.addEventListener('click', (e) => {
-        e.preventDefault();
-        this.addToCart(product);
-      });
+     const addButton = card.querySelector('.add-to-cart-btn');
+     if (addButton) {
+       addButton.addEventListener('click', (e) => {
+         e.preventDefault();
+         this.addToCart(product);
+       });
+     }
+
+     // Add event listeners to quantity buttons
+     const quantityButtons = card.querySelectorAll('.quantity-btn');
+     quantityButtons.forEach(button => {
+       button.addEventListener('click', (e) => {
+         e.preventDefault();
+         this.handleQuantityChange(e, product);
+       });
+     });
+
+     return card;
+  }
+
+  /**
+   * Handle quantity change
+   */
+  handleQuantityChange(event, product) {
+    const action = event.target.dataset.action;
+    const productId = event.target.dataset.productId;
+    const quantityDisplay = event.target.closest('.p-6').querySelector(`.quantity-display[data-product-id="${productId}"]`);
+
+    if (!quantityDisplay) return;
+
+    let currentQuantity = parseInt(quantityDisplay.textContent);
+
+    if (action === 'increase') {
+      currentQuantity++;
+    } else if (action === 'decrease' && currentQuantity > 1) {
+      currentQuantity--;
     }
-    
-    return card;
+
+    quantityDisplay.textContent = currentQuantity;
   }
 
   /**
@@ -99,17 +152,26 @@ class ProductGrid {
    */
   addToCart(product) {
     if (this.cartManager) {
+      // Get the quantity from the display
+      const quantityDisplay = document.querySelector(`.quantity-display[data-product-id="${product.id}"]`);
+      const quantity = quantityDisplay ? parseInt(quantityDisplay.textContent) : 1;
+
       this.cartManager.addItem({
         id: product.id,
         name: product.flavor,
         price: product.price,
         image: product.image,
-        quantity: 1
+        quantity: quantity
       });
-      
-      // Show toast notification
-      this.showToast(`${product.flavor} added to cart!`);
-      
+
+      // Show toast notification with quantity
+      this.showToast(`${quantity} x ${product.flavor} added to cart!`);
+
+      // Reset quantity to 1 after adding to cart
+      if (quantityDisplay) {
+        quantityDisplay.textContent = '1';
+      }
+
       // Notify menu page to update cart summary
       window.dispatchEvent(new CustomEvent('cartUpdated'));
     }

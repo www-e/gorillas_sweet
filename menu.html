@@ -92,8 +92,8 @@
         
         <!-- Filters -->
         <div class="flex flex-wrap gap-2">
-          <button class="filter-btn px-4 py-2 rounded-full border-2 font-medium transition-all duration-300"
-                  style="border-color: var(--btn-ghost-border, #f0e4e9); color: var(--text-secondary, #6D2E4D);"
+          <button class="filter-btn px-4 py-2 rounded-full border-2 font-medium transition-all duration-300 font-bold"
+                  style="border-color: var(--btn-ghost-border, #f0e4e9); color: var(--text-secondary, #6D2E4D); background-color: var(--hero-card-bg, #fff6fa);"
                   data-category="all">
             All
           </button>
@@ -188,8 +188,38 @@
   <script src="js/pages/menu.js"></script>
   
   <script>
-    // Initialize when DOM is ready
+    // Navigation functionality for menu page
+    function handleNavigation(page) {
+      switch (page) {
+        case 'home':
+          window.location.href = 'index.html';
+          break;
+        case 'menu':
+          // Already on menu page
+          break;
+        case 'about':
+          window.location.href = 'index.html#gallery-component';
+          break;
+        case 'contact':
+          window.location.href = 'index.html#social-component';
+          break;
+      }
+    }
+
+    // Add navigation event listeners
     document.addEventListener('DOMContentLoaded', async () => {
+      // Handle desktop navigation clicks
+      document.addEventListener('click', (e) => {
+        if (e.target.classList.contains('nav-button') && e.target.tagName === 'BUTTON') {
+          e.preventDefault();
+          const page = e.target.dataset.page;
+          if (page) {
+            handleNavigation(page);
+          }
+        }
+      });
+
+      // Initialize menu page
       const menuPage = new MenuPage();
       await menuPage.init();
     });

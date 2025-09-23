@@ -174,5 +174,39 @@
   <script src="js/components/customer-form.js"></script>
   <script src="js/components/order-summary.js"></script>
   <script src="js/pages/checkout.js"></script>
+
+  <script>
+    // Navigation functionality for checkout page
+    function handleNavigation(page) {
+      switch (page) {
+        case 'home':
+          window.location.href = 'index.html';
+          break;
+        case 'menu':
+          window.location.href = 'menu.html';
+          break;
+        case 'about':
+          window.location.href = 'index.html#gallery-component';
+          break;
+        case 'contact':
+          window.location.href = 'index.html#social-component';
+          break;
+      }
+    }
+
+    // Add navigation event listeners
+    document.addEventListener('DOMContentLoaded', () => {
+      // Handle desktop navigation clicks
+      document.addEventListener('click', (e) => {
+        if (e.target.classList.contains('nav-button') && e.target.tagName === 'BUTTON') {
+          e.preventDefault();
+          const page = e.target.dataset.page;
+          if (page) {
+            handleNavigation(page);
+          }
+        }
+      });
+    });
+  </script>
 </body>
 </html>

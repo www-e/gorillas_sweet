@@ -85,7 +85,7 @@ class GorillaApp {
     // Initialize carousel
     if (window.CarouselManager && window.DESSERT_DATA) {
       this.components.carouselManager = new window.CarouselManager();
-      const desserts = window.DESSERT_DATA.getAllDesserts();
+      const desserts = window.DESSERT_DATA.getFeaturedDesserts();
       this.components.carouselManager.init(desserts);
     }
 

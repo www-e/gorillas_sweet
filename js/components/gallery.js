@@ -18,7 +18,7 @@ class GalleryManager {
                 return false;
             }
 
-            this.dessertsData = window.DESSERT_DATA.getAllDesserts();
+            this.dessertsData = window.DESSERT_DATA.getFeaturedDesserts();
             
             // Show loading state
             this.showLoadingState();
