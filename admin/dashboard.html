@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard - Godzilla Bakery</title>
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/webp" href="../assets/images/logo.webp">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com/3.4.3"></script>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;700&display=swap" rel="stylesheet">
+  
+  <!-- Supabase JS -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.0.0/dist/umd/supabase.js"></script>
+  
+  <!-- Global styles -->
+  <link rel="stylesheet" href="../assets/css/global.css">
+  
+  <style>
+    body {
+      background-color: var(--page-bg, #ffe8f4);
+      font-family: 'Fredoka', sans-serif;
+    }
+    
+    .admin-header {
+      background: linear-gradient(135deg, var(--btn-gradient-from, #C75B8F) 0%, var(--btn-gradient-to, #e08bb6) 100%);
+    }
+    
+    .order-card {
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    
+    .order-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+    }
+    
+    .status-pending { background-color: #FFFBEB; color: #B45309; }
+    .status-confirmed { background-color: #EFF6FF; color: #1D4ED8; }
+    .status-preparing { background-color: #F0FDF4; color: #14B8A6; }
+    .status-ready { background-color: #FEF3C7; color: #D97706; }
+    .status-delivered { background-color: #ECFDF5; color: #059669; }
+    .status-cancelled { background-color: #FEF2F2; color: #DC2626; }
+    
+    .order-actions button {
+      transition: all 0.2s ease;
+    }
+    
+    .order-actions button:hover {
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+
+<body class="font-fredoka min-h-screen transition-colors duration-600 ease-in-out">
+  
+  <!-- Admin Header -->
+  <header class="admin-header text-white py-4 px-6">
+    <div class="container mx-auto flex justify-between items-center">
+      <h1 class="text-2xl font-bold">Godzilla Bakery Admin</h1>
+      <button id="logout-btn" class="px-4 py-2 rounded-lg bg-white/20 hover:bg-white/30 transition-colors duration-300 font-medium">
+        Logout
+      </button>
+    </div>
+  </header>
+  
+  <!-- Main Content -->
+  <main class="p-4 sm:p-6 lg:p-8">
+    <div class="container mx-auto">
+      <!-- Dashboard Header -->
+      <div class="mb-8">
+        <h2 class="text-3xl font-bold mb-2" style="color: var(--text-secondary, #6D2E4D)">Order Management</h2>
+        <p class="text-gray-600">Monitor and manage customer orders</p>
+      </div>
+      
+      <!-- Stats Section -->
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+        <div class="bg-white rounded-2xl shadow-md p-6">
+          <div class="text-3xl font-bold" id="total-orders">0</div>
+          <div class="text-gray-600">Total Orders</div>
+        </div>
+        <div class="bg-white rounded-2xl shadow-md p-6">
+          <div class="text-3xl font-bold" id="pending-orders">0</div>
+          <div class="text-gray-600">Pending</div>
+        </div>
+        <div class="bg-white rounded-2xl shadow-md p-6">
+          <div class="text-3xl font-bold" id="processing-orders">0</div>
+          <div class="text-gray-600">Processing</div>
+        </div>
+        <div class="bg-white rounded-2xl shadow-md p-6">
+          <div class="text-3xl font-bold" id="revenue">EGP 0.00</div>
+          <div class="text-gray-600">Revenue</div>
+        </div>
+      </div>
+      
+      <!-- Filters and Search -->
+      <div class="bg-white rounded-2xl shadow-md p-6 mb-6">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+          <div class="flex flex-wrap gap-3">
+            <button class="filter-btn px-4 py-2 rounded-full bg-pink-100 text-pink-700 font-medium" data-status="all">All Orders</button>
+            <button class="filter-btn px-4 py-2 rounded-full bg-gray-100 text-gray-700 font-medium" data-status="pending">Pending</button>
+            <button class="filter-btn px-4 py-2 rounded-full bg-gray-100 text-gray-700 font-medium" data-status="confirmed">Confirmed</button>
+            <button class="filter-btn px-4 py-2 rounded-full bg-gray-100 text-gray-700 font-medium" data-status="preparing">Preparing</button>
+            <button class="filter-btn px-4 py-2 rounded-full bg-gray-100 text-gray-700 font-medium" data-status="ready">Ready</button>
+            <button class="filter-btn px-4 py-2 rounded-full bg-gray-100 text-gray-700 font-medium" data-status="delivered">Delivered</button>
+          </div>
+          
+          <div class="relative">
+            <input 
+              type="text" 
+              id="search-orders" 
+              placeholder="Search orders..." 
+              class="w-full md:w-64 px-4 py-2 rounded-full border-2 focus:outline-none focus:ring-2 focus:ring-pink-300 transition-all duration-300"
+              style="border-color: var(--btn-ghost-border, #f0e4e9); color: var(--text-secondary, #6D2E4D);"
+            >
+            <svg class="w-5 h-5 absolute right-3 top-2.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+            </svg>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Loading Indicator -->
+      <div id="loading-orders" class="hidden flex justify-center py-12">
+        <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-pink-500"></div>
+      </div>
+      
+      <!-- No Orders Message -->
+      <div id="no-orders" class="hidden text-center py-12">
+        <div class="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+          <svg class="w-10 h-10 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+          </svg>
+        </div>
+        <h3 class="text-xl font-medium text-gray-900 mb-1">No Orders Found</h3>
+        <p class="text-gray-500">There are currently no orders to display</p>
+      </div>
+      
+      <!-- Orders List -->
+      <div id="orders-list" class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <!-- Order cards will be dynamically inserted here -->
+      </div>
+    </div>
+  </main>
+  
+  <!-- Order Detail Modal -->
+  <div id="order-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50 p-4">
+    <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+      <div class="p-6">
+        <div class="flex justify-between items-center mb-6">
+          <h3 class="text-2xl font-bold" style="color: var(--text-secondary, #6D2E4D)">Order Details</h3>
+          <button id="close-modal" class="text-gray-400 hover:text-gray-600">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+          </button>
+        </div>
+        
+        <div id="order-details-content">
+          <!-- Order details will be inserted here -->
+        </div>
+        
+        <div class="mt-6 flex justify-end space-x-3">
+          <button id="update-status-btn" class="px-6 py-3 rounded-full font-bold text-white" style="background: linear-gradient(45deg, var(--btn-gradient-from, #C75B8F), var(--btn-gradient-to, #e08bb6));">
+            Update Status
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- JavaScript -->
+  <script>
+    // Initialize Supabase client - Direct credentials for GitHub Pages
+    let supabase;
+    let supabaseInitialized = false;
+
+    // Wait for Supabase library to be loaded then initialize
+    function initializeSupabase() {
+      // Check if Supabase library is loaded
+      if (typeof window.supabase !== 'undefined' && !supabaseInitialized) {
+        const supabaseUrl = 'https://rnixgnpiujxcqlxfjdpj.supabase.co';
+        const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJuaXhnbnBpdWp4Y3FseGZqZHBqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTg0OTUzNzUsImV4cCI6MjA3NDA3MTM3NX0.hqj8FGb1CZl6IbraZ7iohqVsTEw0ELewBQQNriUHW4Y';
+        supabase = window.supabase.createClient(supabaseUrl, supabaseAnonKey);
+        supabaseInitialized = true;
+        console.log('✅ Supabase client initialized successfully');
+      } else if (!supabaseInitialized) {
+        // Retry if supabase library is not loaded yet
+        setTimeout(initializeSupabase, 100);
+      }
+    }
+
+    // Initialize Supabase when DOM is ready and library is loaded
+    document.addEventListener('DOMContentLoaded', function() {
+      // Start trying to initialize immediately
+      initializeSupabase();
+
+      // Also try again after a short delay to ensure library is loaded
+      setTimeout(initializeSupabase, 500);
+    });
+    
+    // DOM Elements
+    const ordersList = document.getElementById('orders-list');
+    const loadingOrders = document.getElementById('loading-orders');
+    const noOrders = document.getElementById('no-orders');
+    const totalOrdersEl = document.getElementById('total-orders');
+    const pendingOrdersEl = document.getElementById('pending-orders');
+    const processingOrdersEl = document.getElementById('processing-orders');
+    const revenueEl = document.getElementById('revenue');
+    const logoutBtn = document.getElementById('logout-btn');
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const searchInput = document.getElementById('search-orders');
+    const orderModal = document.getElementById('order-modal');
+    const closeModal = document.getElementById('close-modal');
+    const orderDetailsContent = document.getElementById('order-details-content');
+    const updateStatusBtn = document.getElementById('update-status-btn');
+    
+    let allOrders = [];
+    let currentFilter = 'all';
+    let currentOrderDetail = null;
+    
+    // Check authentication on page load
+    async function checkAuth() {
+      // Check if Supabase is initialized
+      if (!supabase || !supabaseInitialized) {
+        console.error('Supabase client is not initialized');
+        alert('Supabase client is not initialized. Please refresh the page.');
+        return;
+      }
+
+      try {
+        const { data: { session } } = await supabase.auth.getSession();
+
+        if (!session) {
+          // If not authenticated, redirect to sign in
+          window.location.href = 'signin.html';
+          return;
+        }
+
+        // Load orders
+        await loadOrders();
+      } catch (error) {
+        console.error('Error checking authentication:', error);
+        alert('Error checking authentication. Please refresh the page.');
+      }
+    }
+    
+    // Load orders from Supabase
+    async function loadOrders() {
+      // Check if Supabase is initialized
+      if (!supabase || !supabaseInitialized) {
+        console.error('Supabase client is not initialized');
+        alert('Supabase client is not initialized. Please refresh the page.');
+        return;
+      }
+
+      try {
+        showLoading(true);
+
+        const { data, error } = await supabase
+          .from('orders')
+          .select('*')
+          .order('created_at', { ascending: false });
+
+        if (error) {
+          throw error;
+        }
+
+        allOrders = data || [];
+        updateStats();
+        renderOrders(allOrders);
+      } catch (error) {
+        console.error('Error loading orders:', error);
+        alert('Failed to load orders. Please refresh the page.');
+      } finally {
+        showLoading(false);
+      }
+    }
+    
+    // Update stats
+    function updateStats() {
+      totalOrdersEl.textContent = allOrders.length;
+      
+      const pending = allOrders.filter(order => order.status === 'pending').length;
+      pendingOrdersEl.textContent = pending;
+      
+      const processing = allOrders.filter(order => 
+        order.status === 'confirmed' || 
+        order.status === 'preparing' || 
+        order.status === 'ready'
+      ).length;
+      processingOrdersEl.textContent = processing;
+      
+      const revenue = allOrders.reduce((sum, order) => sum + parseFloat(order.total_amount), 0);
+      revenueEl.textContent = `EGP ${revenue.toFixed(2)}`;
+    }
+    
+    // Render orders based on current filter and search
+    function renderOrders(orders) {
+      // Apply filter
+      let filteredOrders = orders;
+      if (currentFilter !== 'all') {
+        filteredOrders = orders.filter(order => order.status === currentFilter);
+      }
+      
+      // Apply search
+      const searchTerm = searchInput.value.trim().toLowerCase();
+      if (searchTerm) {
+        filteredOrders = filteredOrders.filter(order => 
+          order.order_number.toLowerCase().includes(searchTerm) ||
+          order.customer_name.toLowerCase().includes(searchTerm) ||
+          order.customer_phone.toLowerCase().includes(searchTerm) ||
+          (order.customer_email && order.customer_email.toLowerCase().includes(searchTerm))
+        );
+      }
+      
+      // Show/hide messages
+      if (filteredOrders.length === 0) {
+        ordersList.classList.add('hidden');
+        noOrders.classList.remove('hidden');
+      } else {
+        ordersList.classList.remove('hidden');
+        noOrders.classList.add('hidden');
+        
+        // Render orders
+        ordersList.innerHTML = '';
+        filteredOrders.forEach(order => {
+          const orderCard = createOrderCard(order);
+          ordersList.appendChild(orderCard);
+        });
+      }
+    }
+    
+    // Create order card element
+    function createOrderCard(order) {
+      const orderCard = document.createElement('div');
+      orderCard.className = 'order-card bg-white rounded-2xl shadow-md overflow-hidden border border-gray-100';
+      orderCard.innerHTML = `
+        <div class="p-6">
+          <div class="flex justify-between items-start mb-4">
+            <div>
+              <h3 class="text-xl font-bold" style="color: var(--text-secondary, #6D2E4D)">Order #${order.order_number}</h3>
+              <p class="text-gray-600">${new Date(order.created_at).toLocaleString()}</p>
+            </div>
+            <span class="status-${order.status} px-3 py-1 rounded-full text-sm font-medium capitalize">
+              ${order.status}
+            </span>
+          </div>
+          
+          <div class="mb-4">
+            <p class="font-medium" style="color: var(--text-secondary, #6D2E4D)">${order.customer_name}</p>
+            <p class="text-gray-600">${order.customer_phone}</p>
+            <p class="text-gray-600">${order.customer_address}</p>
+          </div>
+          
+          <div class="mb-6">
+            <div class="flex justify-between text-lg font-bold" style="color: var(--text-primary, #8C3A63);">
+              <span>Total:</span>
+              <span>EGP ${parseFloat(order.total_amount).toFixed(2)}</span>
+            </div>
+          </div>
+          
+          <div class="order-actions flex justify-between">
+            <button 
+              class="view-details-btn px-4 py-2 rounded-full bg-gray-100 text-gray-700 font-medium hover:bg-gray-200"
+              data-order-id="${order.id}"
+            >
+              View Details
+            </button>
+            <div class="flex space-x-2">
+              ${order.status !== 'delivered' && order.status !== 'cancelled' ? `
+                <button 
+                  class="status-btn px-4 py-2 rounded-full bg-pink-100 text-pink-700 font-medium hover:bg-pink-200"
+                  data-order-id="${order.id}"
+                  data-status="${getNextStatus(order.status)}"
+                >
+                  Mark as ${getNextStatus(order.status)}
+                </button>
+              ` : ''}
+            </div>
+          </div>
+        </div>
+      `;
+      
+      // Add event listeners
+      const viewDetailsBtn = orderCard.querySelector('.view-details-btn');
+      viewDetailsBtn.addEventListener('click', () => showOrderDetails(order));
+      
+      const statusBtn = orderCard.querySelector('.status-btn');
+      if (statusBtn) {
+        statusBtn.addEventListener('click', async () => {
+          const newStatus = statusBtn.getAttribute('data-status');
+          await updateOrderStatus(order.id, newStatus);
+        });
+      }
+      
+      return orderCard;
+    }
+    
+    // Show order details in modal
+    function showOrderDetails(order) {
+      currentOrderDetail = order;
+      
+      // Format order items
+      let itemsHtml = '';
+      const items = Array.isArray(order.items) ? order.items : JSON.parse(order.items);
+      
+      items.forEach(item => {
+        const price = parseFloat(item.price.replace(/[^\d.]/g, '')) || 0;
+        itemsHtml += `
+          <div class="flex justify-between py-2 border-b border-gray-100">
+            <div>
+              <p class="font-medium">${item.name}</p>
+              <p class="text-gray-600 text-sm">Qty: ${item.quantity}</p>
+            </div>
+            <p class="font-medium">EGP ${(price * item.quantity).toFixed(2)}</p>
+          </div>
+        `;
+      });
+      
+      orderDetailsContent.innerHTML = `
+        <div class="mb-6">
+          <h4 class="text-lg font-bold mb-4" style="color: var(--text-secondary, #6D2E4D)">Order Information</h4>
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <p class="text-gray-600">Order Number</p>
+              <p class="font-medium">#${order.order_number}</p>
+            </div>
+            <div>
+              <p class="text-gray-600">Date</p>
+              <p class="font-medium">${new Date(order.created_at).toLocaleString()}</p>
+            </div>
+            <div>
+              <p class="text-gray-600">Status</p>
+              <p class="font-medium capitalize">${order.status}</p>
+            </div>
+            <div>
+              <p class="text-gray-600">Total Amount</p>
+              <p class="font-medium">EGP ${parseFloat(order.total_amount).toFixed(2)}</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="mb-6">
+          <h4 class="text-lg font-bold mb-4" style="color: var(--text-secondary, #6D2E4D)">Customer Information</h4>
+          <div>
+            <p class="text-gray-600">Name</p>
+            <p class="font-medium">${order.customer_name}</p>
+          </div>
+          <div class="mt-2">
+            <p class="text-gray-600">Phone</p>
+            <p class="font-medium">${order.customer_phone}</p>
+          </div>
+          <div class="mt-2">
+            <p class="text-gray-600">Address</p>
+            <p class="font-medium">${order.customer_address}</p>
+          </div>
+          ${order.customer_email ? `
+          <div class="mt-2">
+            <p class="text-gray-600">Email</p>
+            <p class="font-medium">${order.customer_email}</p>
+          </div>
+          ` : ''}
+        </div>
+        
+        <div class="mb-6">
+          <h4 class="text-lg font-bold mb-4" style="color: var(--text-secondary, #6D2E4D)">Order Items</h4>
+          <div class="border border-gray-200 rounded-lg divide-y divide-gray-200">
+            ${itemsHtml}
+          </div>
+        </div>
+        
+        <div class="flex justify-between items-center pt-4 border-t border-gray-200">
+          <div>
+            <p class="text-gray-600">Status</p>
+            <select id="status-select" class="mt-1 px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-pink-300">
+              <option value="pending" ${order.status === 'pending' ? 'selected' : ''}>Pending</option>
+              <option value="confirmed" ${order.status === 'confirmed' ? 'selected' : ''}>Confirmed</option>
+              <option value="preparing" ${order.status === 'preparing' ? 'selected' : ''}>Preparing</option>
+              <option value="ready" ${order.status === 'ready' ? 'selected' : ''}>Ready for Pickup</option>
+              <option value="delivered" ${order.status === 'delivered' ? 'selected' : ''}>Delivered</option>
+              <option value="cancelled" ${order.status === 'cancelled' ? 'selected' : ''}>Cancelled</option>
+            </select>
+          </div>
+          <div class="text-right">
+            <p class="text-gray-600">Total</p>
+            <p class="text-xl font-bold" style="color: var(--text-primary, #8C3A63);">EGP ${parseFloat(order.total_amount).toFixed(2)}</p>
+          </div>
+        </div>
+      `;
+      
+      orderModal.classList.remove('hidden');
+    }
+    
+    // Update order status
+    async function updateOrderStatus(orderId, newStatus) {
+      // Check if Supabase is initialized
+      if (!supabase || !supabaseInitialized) {
+        console.error('Supabase client is not initialized');
+        alert('Supabase client is not initialized. Please refresh the page.');
+        return;
+      }
+
+      try {
+        const { error } = await supabase
+          .from('orders')
+          .update({ status: newStatus })
+          .eq('id', orderId);
+
+        if (error) {
+          throw error;
+        }
+
+        // Refresh the orders list
+        await loadOrders();
+        alert('Order status updated successfully!');
+      } catch (error) {
+        console.error('Error updating order status:', error);
+        alert('Failed to update order status. Please try again.');
+      }
+    }
+    
+    // Get next status in the order flow
+    function getNextStatus(currentStatus) {
+      const statusOrder = ['pending', 'confirmed', 'preparing', 'ready', 'delivered'];
+      const currentIndex = statusOrder.indexOf(currentStatus);
+      
+      if (currentIndex !== -1 && currentIndex < statusOrder.length - 1) {
+        return statusOrder[currentIndex + 1];
+      }
+      
+      return currentStatus; // Return same status if it's already the last one
+    }
+    
+    // Show/hide loading indicator
+    function showLoading(show) {
+      if (show) {
+        loadingOrders.classList.remove('hidden');
+        ordersList.classList.add('hidden');
+        noOrders.classList.add('hidden');
+      } else {
+        loadingOrders.classList.add('hidden');
+      }
+    }
+    
+    // Event Listeners
+    logoutBtn.addEventListener('click', async () => {
+      if (supabase && supabaseInitialized) {
+        await supabase.auth.signOut();
+      }
+      window.location.href = 'signin.html';
+    });
+    
+    filterButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        // Update active button
+        filterButtons.forEach(btn => btn.classList.remove('bg-pink-100', 'text-pink-700'));
+        button.classList.add('bg-pink-100', 'text-pink-700');
+        
+        // Update current filter
+        currentFilter = button.getAttribute('data-status');
+        
+        // Re-render orders
+        renderOrders(allOrders);
+      });
+    });
+    
+    searchInput.addEventListener('input', () => {
+      renderOrders(allOrders);
+    });
+    
+    closeModal.addEventListener('click', () => {
+      orderModal.classList.add('hidden');
+    });
+    
+    updateStatusBtn.addEventListener('click', async () => {
+      if (currentOrderDetail) {
+        const statusSelect = document.getElementById('status-select');
+        const newStatus = statusSelect.value;
+        
+        await updateOrderStatus(currentOrderDetail.id, newStatus);
+        orderModal.classList.add('hidden');
+      }
+    });
+    
+    // Close modal when clicking outside
+    orderModal.addEventListener('click', (e) => {
+      if (e.target === orderModal) {
+        orderModal.classList.add('hidden');
+      }
+    });
+    
+    // Initialize the page
+    document.addEventListener('DOMContentLoaded', checkAuth);
+  </script>
+</body>
+</html>

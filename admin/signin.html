@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Sign In - Godzilla Bakery</title>
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/webp" href="../assets/images/logo.webp">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com/3.4.3"></script>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;700&display=swap" rel="stylesheet">
+  
+  <!-- Supabase JS -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.0.0/dist/umd/supabase.js"></script>
+  
+  <!-- Global styles -->
+  <link rel="stylesheet" href="../assets/css/global.css">
+  
+  <style>
+    body {
+      background: linear-gradient(135deg, #ffe8f4 0%, #f0e4e9 100%);
+      font-family: 'Fredoka', sans-serif;
+    }
+    
+    .admin-card {
+      background-color: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-radius: 30px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    }
+    
+    .admin-input {
+      transition: all 0.3s ease;
+    }
+    
+    .admin-input:focus {
+      border-color: #C75B8F;
+      box-shadow: 0 0 0 3px rgba(199, 91, 143, 0.2);
+    }
+  </style>
+</head>
+
+<body class="font-fredoka min-h-screen flex items-center justify-center p-4">
+  <div class="admin-card w-full max-w-md p-8 md:p-10">
+    <div class="text-center mb-8">
+      <div class="w-20 h-20 bg-pink-100 rounded-full flex items-center justify-center mx-auto mb-4">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-pink-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+        </svg>
+      </div>
+      <h1 class="text-3xl font-bold mb-2" style="color: var(--text-secondary, #6D2E4D)">Admin Access</h1>
+      <p class="text-gray-600">Sign in to access the admin dashboard</p>
+    </div>
+    
+    <form id="signin-form" class="space-y-6">
+      <div>
+        <label for="email" class="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+        <input 
+          type="email" 
+          id="email" 
+          name="email"
+          required
+          class="admin-input w-full px-4 py-3 rounded-xl border-2 focus:outline-none focus:ring-2 focus:ring-pink-300 transition-all duration-300"
+          style="border-color: var(--btn-ghost-border, #f0e4e9); color: var(--text-secondary, #6D2E4D);"
+          placeholder="admin@gorilla.com"
+        >
+      </div>
+      
+      <div>
+        <label for="password" class="block text-sm font-medium text-gray-700 mb-2">Password</label>
+        <input 
+          type="password" 
+          id="password" 
+          name="password"
+          required
+          class="admin-input w-full px-4 py-3 rounded-xl border-2 focus:outline-none focus:ring-2 focus:ring-pink-300 transition-all duration-300"
+          style="border-color: var(--btn-ghost-border, #f0e4e9); color: var(--text-secondary, #6D2E4D);"
+          placeholder="Enter your password"
+        >
+      </div>
+      
+      <div id="error-message" class="hidden mb-4 p-3 rounded-lg text-red-700 bg-red-50 border border-red-200">
+        <!-- Error messages will appear here -->
+      </div>
+      
+      <button 
+        type="submit" 
+        id="signin-btn"
+        class="w-full px-6 py-3 rounded-full font-bold text-white transition-all duration-300 hover:scale-[1.02] flex items-center justify-center"
+        style="background: linear-gradient(45deg, var(--btn-gradient-from, #C75B8F), var(--btn-gradient-to, #e08bb6));"
+      >
+        <span>Sign In</span>
+        <svg id="signin-spinner" class="animate-spin ml-2 h-4 w-4 text-white hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+      </button>
+    </form>
+    
+    <div class="mt-6 text-center">
+      <p class="text-gray-600 text-sm">
+        Need help accessing the admin panel? 
+        <a href="../index.html" class="text-pink-600 hover:underline">Return to Store</a>
+      </p>
+    </div>
+  </div>
+
+  <!-- JavaScript -->
+  <script>
+    // Initialize Supabase client - Direct credentials for GitHub Pages
+    let supabase;
+    let supabaseInitialized = false;
+
+    // Wait for Supabase library to be loaded then initialize
+    function initializeSupabase() {
+      // Check if Supabase library is loaded
+      if (typeof window.supabase !== 'undefined' && !supabaseInitialized) {
+        const supabaseUrl = 'https://rnixgnpiujxcqlxfjdpj.supabase.co';
+        const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJuaXhnbnBpdWp4Y3FseGZqZHBqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTg0OTUzNzUsImV4cCI6MjA3NDA3MTM3NX0.hqj8FGb1CZl6IbraZ7iohqVsTEw0ELewBQQNriUHW4Y';
+        supabase = window.supabase.createClient(supabaseUrl, supabaseAnonKey);
+        supabaseInitialized = true;
+        console.log('✅ Supabase client initialized successfully');
+      } else if (!supabaseInitialized) {
+        // Retry if supabase library is not loaded yet
+        setTimeout(initializeSupabase, 100);
+      }
+    }
+
+    // Initialize Supabase when DOM is ready and library is loaded
+    document.addEventListener('DOMContentLoaded', function() {
+      // Start trying to initialize immediately
+      initializeSupabase();
+
+      // Also try again after a short delay to ensure library is loaded
+      setTimeout(initializeSupabase, 500);
+    });
+
+    // Sign in form handler
+    document.getElementById('signin-form').addEventListener('submit', async function(e) {
+      e.preventDefault();
+
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      const signinBtn = document.getElementById('signin-btn');
+      const spinner = document.getElementById('signin-spinner');
+      const errorMessage = document.getElementById('error-message');
+
+      // Check if Supabase is initialized
+      if (!supabase || !supabaseInitialized) {
+        errorMessage.textContent = 'Supabase client is not initialized. Please refresh the page.';
+        errorMessage.classList.remove('hidden');
+        return;
+      }
+
+      // Show loading state
+      signinBtn.disabled = true;
+      spinner.classList.remove('hidden');
+      errorMessage.classList.add('hidden');
+
+      try {
+        const { data, error } = await supabase.auth.signInWithPassword({
+          email: email,
+          password: password
+        });
+
+        if (error) {
+          throw error;
+        }
+
+        // Redirect to dashboard on success
+        window.location.href = 'dashboard.html';
+      } catch (error) {
+        // Show error message
+        errorMessage.textContent = error.message || 'Failed to sign in. Please check your credentials.';
+        errorMessage.classList.remove('hidden');
+      } finally {
+        // Reset loading state
+        signinBtn.disabled = false;
+        spinner.classList.add('hidden');
+      }
+    });
+  </script>
+</body>
+</html>

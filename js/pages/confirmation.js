@@ -46,7 +46,7 @@ class ConfirmationPage {
    */
   initializeComponents() {
     // Initialize order manager
-    this.orderManager = new OrderManager();
+    this.orderManager = new SupabaseOrderManager();
     
     // Initialize receipt component
     this.receiptComponent = new Receipt();
@@ -59,7 +59,7 @@ class ConfirmationPage {
    * Load and display order
    */
   async loadOrder(orderId) {
-    this.order = this.orderManager.getOrderById(orderId);
+    this.order = await this.orderManager.getOrderById(orderId);
     
     if (!this.order) {
       // Redirect to menu if order not found

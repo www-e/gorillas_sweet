@@ -46,7 +46,7 @@ class CheckoutPage {
    */
   initializeComponents() {
     // Initialize order manager
-    this.orderManager = new OrderManager();
+    this.orderManager = new SupabaseOrderManager();
     
     // Initialize customer form component
     this.customerFormComponent = new CustomerForm();
@@ -109,8 +109,8 @@ class CheckoutPage {
       // Get cart items
       const cartItems = this.cartManager.getItems();
       
-      // Create order
-      const order = this.orderManager.createOrder(customerInfo, cartItems);
+      // Create order using Supabase
+      const order = await this.orderManager.createOrder(customerInfo, cartItems);
       
       // Clear cart
       this.cartManager.clearCart();
