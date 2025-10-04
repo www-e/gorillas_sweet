@@ -86,7 +86,8 @@ class ConfirmationPage {
     const customerNameElement = document.getElementById('customer-name');
     const customerPhoneElement = document.getElementById('customer-phone');
     const customerAddressElement = document.getElementById('customer-address');
-    
+    const deliveryInstructionsElement = document.getElementById('delivery-instructions');
+
     if (orderIdElement) orderIdElement.textContent = this.order.id;
     if (orderDateElement) {
       const date = new Date(this.order.timestamp);
@@ -99,6 +100,11 @@ class ConfirmationPage {
     if (customerNameElement) customerNameElement.textContent = this.order.customer.name;
     if (customerPhoneElement) customerPhoneElement.textContent = this.order.customer.phone;
     if (customerAddressElement) customerAddressElement.textContent = this.order.customer.address;
+    if (deliveryInstructionsElement) {
+      deliveryInstructionsElement.textContent = this.order.delivery_instructions && this.order.delivery_instructions.trim() !== ''
+        ? this.order.delivery_instructions
+        : 'None';
+    }
   }
 
   /**

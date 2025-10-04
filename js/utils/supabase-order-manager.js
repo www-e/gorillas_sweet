@@ -26,6 +26,7 @@ class SupabaseOrderManager {
         customer_phone: customerInfo.phone,
         customer_address: customerInfo.address,
         customer_email: customerInfo.email || null,
+        delivery_instructions: customerInfo.instructions || null,
         items: cartItems, // Store the items as JSON
         total_amount: total,
         status: 'pending'
@@ -54,6 +55,7 @@ class SupabaseOrderManager {
           address: data.customer_address,
           email: data.customer_email
         },
+        delivery_instructions: data.delivery_instructions,
         items: data.items,
         total: parseFloat(data.total_amount),
         status: data.status
@@ -99,6 +101,7 @@ class SupabaseOrderManager {
           address: data.customer_address,
           email: data.customer_email
         },
+        delivery_instructions: data.delivery_instructions,
         items: data.items,
         total: parseFloat(data.total_amount),
         status: data.status
@@ -135,6 +138,7 @@ class SupabaseOrderManager {
           address: order.customer_address,
           email: order.customer_email
         },
+        delivery_instructions: order.delivery_instructions,
         items: order.items,
         total: parseFloat(order.total_amount),
         status: order.status

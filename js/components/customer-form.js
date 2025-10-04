@@ -31,7 +31,7 @@ class CustomerForm {
       errors.push('Please enter your phone number');
       isValid = false;
     } else if (!this.isValidPhone(data.phone)) {
-      errors.push('Please enter a valid phone number');
+      errors.push('Phone number must be exactly 11 digits starting with 0 (e.g., 01154688628)');
       isValid = false;
     }
 
@@ -49,14 +49,15 @@ class CustomerForm {
     return isValid;
   }
 
-  /**
+ /**
    * Validate phone number format
    */
-  isValidPhone(phone) {
-    // Simple validation for Egyptian phone numbers
-    const phoneRegex = /^(\+20|0)?1[0-9]{9}$/;
-    return phoneRegex.test(phone.replace(/\s/g, ''));
-  }
+ isValidPhone(phone) {
+   // Strict validation for exactly 11 digits (Egyptian format starting with 0)
+   const phoneRegex = /^0[0-9]{10}$/; // Starts with 0, followed by exactly 10 digits
+   const cleanPhone = phone.replace(/\s/g, '');
+   return phoneRegex.test(cleanPhone) && cleanPhone.length === 11;
+ }
 
   /**
    * Show validation errors

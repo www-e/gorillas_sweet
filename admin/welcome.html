@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Welcome - Godzilla Bakery Admin</title>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/webp" href="../assets/images/logo.webp">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com/3.4.3"></script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <!-- Global styles -->
+  <link rel="stylesheet" href="../assets/css/global.css">
+
+  <style>
+    body {
+      background: linear-gradient(135deg, #ffe8f4 0%, #f0e4e9 100%);
+      font-family: 'Fredoka', sans-serif;
+    }
+
+    .welcome-card {
+      background-color: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-radius: 30px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    }
+
+    .animate-bounce-in {
+      animation: bounceIn 1s ease-out;
+    }
+
+    .animate-fade-in {
+      animation: fadeIn 1.5s ease-out;
+    }
+
+    .animate-slide-up {
+      animation: slideUp 0.8s ease-out 0.3s both;
+    }
+
+    @keyframes bounceIn {
+      0% { transform: scale(0.3); opacity: 0; }
+      50% { transform: scale(1.05); }
+      70% { transform: scale(0.9); }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    @keyframes fadeIn {
+      0% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+
+    @keyframes slideUp {
+      0% { transform: translateY(30px); opacity: 0; }
+      100% { transform: translateY(0); opacity: 1; }
+    }
+  </style>
+</head>
+
+<body class="font-fredoka min-h-screen flex items-center justify-center p-4">
+  <div class="welcome-card w-full max-w-md p-8 md:p-10 text-center">
+    <!-- Profile Image -->
+    <div class="animate-bounce-in mb-6">
+      <div class="w-32 h-32 bg-gradient-to-br from-pink-400 to-pink-600 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+        <img src="../assets/images/zanaty.jpg" alt="Zanaty" class="w-28 h-28 rounded-full object-cover border-4 border-white">
+      </div>
+    </div>
+
+    <!-- Welcome Message -->
+    <div class="animate-fade-in">
+      <h1 class="text-4xl font-bold mb-2" style="color: var(--text-secondary, #6D2E4D)">
+        Hey Zanaty! 👋
+      </h1>
+      <p class="text-xl text-gray-600 mb-2">How are you today?</p>
+      <p class="text-gray-500">Welcome back to your dashboard</p>
+    </div>
+
+    <!-- Loading Animation -->
+    <div class="animate-slide-up mt-8">
+      <div class="flex items-center justify-center space-x-2 text-pink-600">
+        <div class="w-2 h-2 bg-pink-600 rounded-full animate-pulse"></div>
+        <div class="w-2 h-2 bg-pink-600 rounded-full animate-pulse" style="animation-delay: 0.2s;"></div>
+        <div class="w-2 h-2 bg-pink-600 rounded-full animate-pulse" style="animation-delay: 0.4s;"></div>
+      </div>
+      <p class="text-sm text-gray-500 mt-2">Preparing your dashboard...</p>
+    </div>
+  </div>
+
+  <!-- JavaScript -->
+  <script>
+    // Auto-redirect to dashboard after 3 seconds
+    setTimeout(() => {
+      window.location.href = 'dashboard.html';
+    }, 3000);
+  </script>
+</body>
+</html>

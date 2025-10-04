@@ -166,10 +166,10 @@ class PrintReceipt {
               <span class="info-label">Delivery Address:</span>
               <span>${order.customer.address}</span>
             </div>
-            ${order.customer.instructions ? `
+            ${order.delivery_instructions && order.delivery_instructions.trim() !== '' ? `
             <div class="info-item">
-              <span class="info-label">Instructions:</span>
-              <span>${order.customer.instructions}</span>
+              <span class="info-label">Delivery Instructions:</span>
+              <span>${order.delivery_instructions}</span>
             </div>
             ` : ''}
           </div>
